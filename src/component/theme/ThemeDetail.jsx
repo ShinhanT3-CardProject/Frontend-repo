@@ -150,19 +150,21 @@ function ThemeDetail(props) {
             }
         };
 
+        const themeContents = detailTheme.themeContents;
+
         const themes = [
             {
               name: detailTheme.themeName,
               color: "black",
               icon: getStampImage(detailTheme.themeMainCategoryName),
               missions: [
-                  { name: `${detailTheme.themeSubCategoryName[0]} ${getMissionNameDetail(detailTheme.themeSubCategoryName[0])}` },
-                  { name: `${detailTheme.themeSubCategoryName[1]} ${getMissionNameDetail(detailTheme.themeSubCategoryName[1])}` },
-                  { name: `${detailTheme.themeSubCategoryName[2]} ${getMissionNameDetail(detailTheme.themeSubCategoryName[2])}` },
-                  { name: `${detailTheme.themeSubCategoryName[3]} ${getMissionNameDetail(detailTheme.themeSubCategoryName[3])}` },
-                  { name: `${detailTheme.themeSubCategoryName[4]} ${getMissionNameDetail(detailTheme.themeSubCategoryName[4])}` },
+                  { name: `${themeContents[0].themeSubCategoryName} ${getMissionNameDetail(themeContents[0].themeSubCategoryName)}` },
+                  { name: `${themeContents[1].themeSubCategoryName} ${getMissionNameDetail(themeContents[1].themeSubCategoryName)}` },
+                  { name: `${themeContents[2].themeSubCategoryName} ${getMissionNameDetail(themeContents[2].themeSubCategoryName)}` },
+                  { name: `${themeContents[3].themeSubCategoryName} ${getMissionNameDetail(themeContents[3].themeSubCategoryName)}` },
+                  { name: `${themeContents[4].themeSubCategoryName} ${getMissionNameDetail(themeContents[4].themeSubCategoryName)}` },
             ],
-            }];
+            },];
 
             console.log('themes')
             console.log(themes)
@@ -228,7 +230,12 @@ function ThemeDetail(props) {
                     </div>
                     <div className='themeSubCategoryContainer'>
                         <span>소분류</span>
-                        <p>{detailTheme.themeSubCategoryName.join(", ")}</p>
+                        <p>
+                            {Array.isArray(detailTheme.themeContents) 
+                                ? detailTheme.themeContents.map(content => content.themeSubCategoryName).join(", ")
+                                : ''
+                            }
+                        </p>
                     </div>
                 </div>
                 <div className='themeContentDiv'>
