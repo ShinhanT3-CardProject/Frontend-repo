@@ -9,12 +9,17 @@ function PointMain(props) {
   const [totalPoints, setTotalPoints] = useState(0);
   const [pointList, setPointList] = useState([]);
   const [userName, setUserName] = useState("");
-
   const [chartOptions, setChartOptions] = useState({
     chart: {
       type: "bar",
       stacked: true,
       stackType: "100%",
+      toolbar: {
+        show: false,
+      },
+      events: {
+        click: (event, chartContext, config) => {},
+      },
     },
     plotOptions: {
       bar: {
@@ -22,7 +27,10 @@ function PointMain(props) {
       },
     },
     xaxis: {
-      categories: ["포인트 리포트"], // X축 카테고리
+      categories: ["포인트 비율"],
+      labels: {
+        show: false,
+      },
     },
     fill: {
       opacity: 1,
@@ -31,22 +39,19 @@ function PointMain(props) {
       position: "top",
       horizontalAlign: "left",
     },
+    dataLabels: {
+      enabled: false, // 데이터 레이블 비활성화
+    },
+    tooltip: {
+      y: {
+        formatter: (value) => {
+          return `${Math.floor(value).toLocaleString()} %`;
+        },
+      },
+    },
   });
 
-  const [chartSeries, setChartSeries] = useState([
-    {
-      name: "테마 포인트",
-      data: [30], // 예시 데이터
-    },
-    {
-      name: "레이드 포인트",
-      data: [65], // 예시 데이터
-    },
-    {
-      name: "기타",
-      data: [5],
-    },
-  ]);
+  const [chartSeries, setChartSeries] = useState([]);
 
   useEffect(() => {
     // Component가 렌더링된 후 MaterializeCSS 초기화
@@ -56,6 +61,7 @@ function PointMain(props) {
     fetchUserInfo();
     fetchPointList();
     fetchTotalPoints();
+    fetchCategoryData();
   }, []);
 
   const fetchTotalPoints = async () => {
@@ -84,6 +90,49 @@ function PointMain(props) {
     }
   };
 
+  const fetchCategoryData = async () => {
+    try {
+      const response = await axios.get(`/point/calc-category`);
+      const data = response.data;
+
+      // 카테고리별 총합과 비율 데이터 설정
+      const categoryTotals = data.categoryTotals || {};
+      const categoryRatios = data.categoryRatios || {};
+
+      const seriesData = [
+        {
+          name: "테마 포인트 ",
+          data: [categoryRatios["테마"] || 0],
+          total: categoryTotals["테마"] || 0,
+        },
+        {
+          name: "레이드 포인트 ",
+          data: [categoryRatios["레이드"] || 0],
+          total: categoryTotals["레이드"] || 0,
+        },
+        {
+          name: "기타 ",
+          data: [categoryRatios["기타"] || 0],
+          total: categoryTotals["기타"] || 0,
+        },
+      ];
+
+      setChartSeries(seriesData);
+
+      setChartOptions((prevOptions) => ({
+        ...prevOptions,
+        legend: {
+          formatter: (seriesName, { seriesIndex }) => {
+            const total = seriesData[seriesIndex]?.total || 0;
+            return `${seriesName}: ${total.toLocaleString()} 원`;
+          },
+        },
+      }));
+    } catch (error) {
+      console.error("오류 발생:", error);
+    }
+  };
+
   return (
     <>
       <div className="faq app-pages app-section">
@@ -104,12 +153,12 @@ function PointMain(props) {
               입니다
             </h2>
             <br></br>
-            <div id="chart" style={{ width: "100%", height: "200px" }}>
+            <div id="chart" style={{ width: "100%", height: "140px" }}>
               <ReactApexChart
                 options={chartOptions}
                 series={chartSeries}
                 type="bar"
-                height={200}
+                height={140}
               />
             </div>
             <br></br>
