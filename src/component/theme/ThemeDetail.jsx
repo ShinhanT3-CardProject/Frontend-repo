@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-import StampBoard from './StampBoard'; //stampBoard 컴포넌트화를 위한 import
 
 import shoppingImage from 'asset/image/shoppingImage.jpg'; // 예시 이미지
 import travelImage from 'asset/image/travelImage.jpg';
@@ -32,6 +31,8 @@ function ThemeDetail(props) {
     }, [themeId]);
 
     console.log(detailTheme);
+
+    console.log('Theme ID: ', themeId);
 
     //배경이미지 가져오기
     const getThemeBackgroundImage = (themeBackground) => {

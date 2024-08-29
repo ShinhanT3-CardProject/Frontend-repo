@@ -23,7 +23,7 @@ const ThemeList = ({ themes, moveToDetail, getThemeBackgroundImage }) => {
             stopOnHover={true}
         >
             {themes.map(theme => (
-                <div key={theme.id} onClick={() => moveToDetail(theme.id)}>
+                <div key={theme.themeId} onClick={() => moveToDetail(theme.themeId)}>
                     <div className="themeThumbnail">
                         <img src={getThemeBackgroundImage(theme.themeBackground)} alt={theme.themeName} />
                     </div>
