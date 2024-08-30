@@ -190,9 +190,6 @@ function PointMain(props) {
               </span>{" "}
             </h2>
             <br></br>
-            {/* <h3 className="point-h3">
-              총 누적 포인트 {totalAccumulatedPoints.toLocaleString()}P{" "}
-            </h3> */}
 
             <div id="chart" style={{ width: "100%", height: "140px" }}>
               <ReactApexChart
