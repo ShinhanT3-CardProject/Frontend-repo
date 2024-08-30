@@ -50,3 +50,12 @@
   font-weight: normal;
   color: black;
 }
+
+.btn-load-more {
+  background-color: #007fff;
+  color: whitesmoke;
+}
+
+.btn-load-more:focus {
+  background-color: #007fff;
+}

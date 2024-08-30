@@ -9,6 +9,7 @@ function PointMain(props) {
   const [totalPoints, setTotalPoints] = useState(0);
   const [pointList, setPointList] = useState([]);
   const [userName, setUserName] = useState("");
+  const [itemsToShow, setItemsToShow] = useState(5);
   const [chartOptions, setChartOptions] = useState({
     chart: {
       type: "bar",
@@ -76,7 +77,11 @@ function PointMain(props) {
   const fetchPointList = async () => {
     try {
       const response = await axios.get(`/point/all`);
-      setPointList(response.data); // 응답 데이터에서 포인트 리스트 설정
+
+      const sortedPoints = response.data.sort(
+        (a, b) => new Date(b.createDate) - new Date(a.createDate)
+      );
+      setPointList(sortedPoints); // 응답 데이터에서 포인트 리스트 설정
     } catch (error) {
       console.error("포인트 리스트 데이터를 가져오는 중 오류 발생:", error);
     }
@@ -133,6 +138,10 @@ function PointMain(props) {
     }
   };
 
+  const loadMore = () => {
+    setItemsToShow((prev) => prev + 5);
+  };
+
   return (
     <>
       <div className="faq app-pages app-section">
@@ -175,7 +184,7 @@ function PointMain(props) {
           <div className="entry">
             <ul className="collapsible" data-collapsible="accordion">
               {pointList.length > 0 ? (
-                pointList.map((point, index) => (
+                pointList.slice(0, itemsToShow).map((point, index) => (
                   <li key={index}>
                     <div
                       className="collapsible-header faq-collapsible"
@@ -212,6 +221,11 @@ function PointMain(props) {
                 </li>
               )}
             </ul>
+            {itemsToShow < pointList.length && (
+              <button onClick={loadMore} className="btn-load-more">
+                더보기
+              </button>
+            )}
           </div>
         </div>
       </div>
