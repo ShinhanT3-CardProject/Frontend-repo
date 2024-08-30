@@ -24,7 +24,6 @@ function MyThemeDetail(props) {
   const { themeId } = useParams();
   const [stamps, setStamps]  = useState({}); /* 스탬프 변수 */
 
-  // 종경
   const location = useLocation();
   const navigate = useNavigate();
   const receivedTheme = location.state?.theme || "";  // 소분류 테마를 받음
@@ -58,7 +57,7 @@ function MyThemeDetail(props) {
                 const category = categoriesResponse.data.find(cat => cat.themeMainCategoryName === receivedMainCategory);
                 if (category) {
                     setSelectedCategory(category.themeMainCategoryId);
-                    fetchSubCategories(category.themeMainCategoryId);
+                    await fetchSubCategories(category.themeMainCategoryId);
                     setBackgroundImg(themeImages[receivedMainCategory]);  // 초기 로딩 시 이미지 설정
                 }
             }
@@ -68,7 +67,7 @@ function MyThemeDetail(props) {
     };
 
     fetchCategories();
-    }, []);
+    }, [receivedMainCategory]);
 
   // subCategory 데이터 수신
   const fetchSubCategories = async (mainCategoryId) => {
@@ -135,8 +134,6 @@ function MyThemeDetail(props) {
       }
     }, [selectedThemes, receivedMainCategory]);
 
-  // 종경
-
   //themeDetail 데이터 수신
   useEffect(() => {
     const fetchData = async() => {
@@ -152,7 +149,7 @@ function MyThemeDetail(props) {
         setCategories(categoryResponse);
 
         if(myDetailThemeResponse.themeMainCategoryId) {
-          fetchSubCategories(myDetailThemeResponse.themeMainCategoryId);
+          await fetchSubCategories(myDetailThemeResponse.themeMainCategoryId);
           setBackgroundImg(themeImages[myDetailThemeResponse.themeMainCategoryName]);  // 원래 저장된 배경 이미지 설정
         }
           setSelectedThemes(myDetailThemeResponse.themeSubCategory || []);
@@ -163,9 +160,6 @@ function MyThemeDetail(props) {
       fetchData();
     }, [themeId]);
 
-    
-
-        //배경이미지 가져오기 (조회용)
         const getThemeBackgroundImage = (themeBackground) => {
           switch (themeBackground) {
               case 'shoppingImage':
@@ -253,49 +247,40 @@ function MyThemeDetail(props) {
         }
 
         // 수정하기 버튼 클릭 시 화면구성 변경
-        const handleEditClick = () => {
-        // 소분류 테마 설정
-        if (myDetailTheme.themeSubCategoryName && myDetailTheme.themeSubCategoryName.length > 0) {
-          const initialSelectedThemes = myDetailTheme.themeSubCategoryName.map((subCategoryName) => {
-            return {
-              themeSubCategoryName: subCategoryName,
-              themeSubCategoryId: subCategories.find((sub) => sub.themeSubCategoryName === subCategoryName)?.themeSubCategoryId || null,
-            };
-          });
-          setSelectedThemes(initialSelectedThemes);
+        const handleEditClick = async () => {
+          // 기존에 저장된 테마 정보를 사용하여 selectedThemes 상태를 설정합니다.
+          if (Array.isArray(myDetailTheme.themeContents) && myDetailTheme.themeContents.length > 0) {
+            const initialSelectedThemes = myDetailTheme.themeContents.map((content) => ({
+              themeSubCategoryName: content.themeSubCategoryName,
+              themeSubCategoryId: content.themeSubCategoryId,
+            }));
+            setSelectedThemes(initialSelectedThemes);
           }
-
-
-        // 대분류 설정
-        if (myDetailTheme.themeMainCategoryName) {
-        const selectedCategory = categories.find(
-          (category) => category.themeMainCategoryName === myDetailTheme.themeMainCategoryName
-        );
-
-          if (selectedCategory) {
-            setSelectedCategory(selectedCategory.themeMainCategoryId);
-            setBackgroundImg(themeImages[selectedCategory.themeMainCategoryName]);
+        
+          // 대분류 설정 및 소분류 불러오기
+          if (myDetailTheme.themeMainCategoryName) {
+            const selectedCategory = categories.find(
+              (category) => category.themeMainCategoryName === myDetailTheme.themeMainCategoryName
+            );
+        
+            if (selectedCategory) {
+              setSelectedCategory(selectedCategory.themeMainCategoryId);
+              setBackgroundImg(themeImages[selectedCategory.themeMainCategoryName]);
+  
+              // 소분류 데이터를 불러옵니다.
+              await fetchSubCategories(selectedCategory.themeMainCategoryId);
             }
-        }
+          }
           setIsEditMode(true);
         };
+        
 
         const handleCancleClick = () => {
           setMyDetailTheme(initialThemeData);
           setIsEditMode(false);
         };
 
-    
-
-    // 테마 등록정보 저장
     const handleEditSave = async () => {
-
-      
-
-      console.log("카테고리" + selectedCategory);
-      console.log(selectedThemes);
-      console.log(myDetailTheme);
-      console.log(myDetailTheme.themeMainCategoryId);
       if (!selectedCategory || selectedThemes.length === 0) {
         alert("대분류와 최소 하나의 소분류를 선택해 주세요.");
         return;
@@ -438,8 +423,6 @@ function MyThemeDetail(props) {
           ],
             }];
 
-            console.log(myDetailTheme.themeMainCategoryName)
-
           const editThemes = [
               {
                 name: themeName,
@@ -461,7 +444,6 @@ function MyThemeDetail(props) {
                   },
                   }));
               };
-              /* 스탬프 변수 */
 
     return (
         <>
@@ -483,8 +465,6 @@ function MyThemeDetail(props) {
                             ) : (
                                <img src={getThemeBackgroundImage(myDetailTheme.themeBackground)}  className="background-image" alt={myDetailTheme.themeName} />
                             )}
-                            {/**/}
-
                             <div className='theme-path'>
                                 {theme.missions.map((mission, index) => (
                                     <div key={index} className={`mission-node ${
@@ -492,8 +472,6 @@ function MyThemeDetail(props) {
                                     }`}
                                     onClick = {() => handleStamp(theme.name, mission.name)}>
                                     <img src={theme.icon} alt={`${theme.name} icon`} className='mission-icon' />
-                                    
-
                                     <div className='mission-name'>{mission.name}</div>
                                     </div>
                                 ))}
@@ -507,7 +485,6 @@ function MyThemeDetail(props) {
                   <div key={index} className='theme-selection'>
                       <img src={getThemeBackgroundImage(myDetailTheme.themeBackground)} 
                       alt={myDetailTheme.themeName} className="background-image"/>
-                      {/**/}
                       <div className='theme-path'>
                           {theme.missions.map((mission, index) => (
                               <div key={index} className={`mission-node ${
@@ -688,9 +665,7 @@ function MyThemeDetail(props) {
 
             </div>
             </div>{" "}
-            {/* container */}
         </div>{" "}
-        {/* faq app-pages app-section */}
         </>
     );
 }
