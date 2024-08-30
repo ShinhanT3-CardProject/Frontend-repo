@@ -15,6 +15,8 @@ import lifestyleIcon from "asset/image/lifestyleIcon.png";
 import diningIcon from "asset/image/diningIcon.png";
 import cultureIcon from "asset/image/cultreIcon.png";
 
+import complete from "asset/image/complete.png";
+
 function MyThemeDetail(props) { 
   const [myDetailTheme, setMyDetailTheme] = useState('');
   const [initialThemeData, setInitialThemeData] = useState('');
@@ -133,8 +135,6 @@ function MyThemeDetail(props) {
       }
     }, [selectedThemes, receivedMainCategory]);
 
-    console.log(selectedCategory);
-
   // 종경
 
   //themeDetail 데이터 수신
@@ -147,8 +147,6 @@ function MyThemeDetail(props) {
             setThemeName(myDetailThemeResponse.themeName);
             setThemeContent(myDetailThemeResponse.themeDescription);
             setSelectedCategory(myDetailThemeResponse.themeMainCategoryId);
-
-            console.log(myDetailTheme);
 
         const { data : categoryResponse } = await axios.get('/api/categories');
         setCategories(categoryResponse);
@@ -264,7 +262,6 @@ function MyThemeDetail(props) {
               themeSubCategoryId: subCategories.find((sub) => sub.themeSubCategoryName === subCategoryName)?.themeSubCategoryId || null,
             };
           });
-          console.log(initialSelectedThemes);
           setSelectedThemes(initialSelectedThemes);
           }
 
@@ -275,14 +272,11 @@ function MyThemeDetail(props) {
           (category) => category.themeMainCategoryName === myDetailTheme.themeMainCategoryName
         );
 
-        if (selectedCategory) {
-          setSelectedCategory(selectedCategory.themeMainCategoryId);
-          setBackgroundImg(themeImages[selectedCategory.themeMainCategoryName]);
+          if (selectedCategory) {
+            setSelectedCategory(selectedCategory.themeMainCategoryId);
+            setBackgroundImg(themeImages[selectedCategory.themeMainCategoryName]);
+            }
         }
-        console.log(myDetailTheme);
-        console.log(selectedCategory);
-        }
-
           setIsEditMode(true);
         };
 
@@ -316,8 +310,6 @@ function MyThemeDetail(props) {
           mainCategory: {"themeMainCategoryId":selectedCategory}  // 선택된 대분류 ID 추가
       };
 
-      console.log("themeData : ",themeData);
-
       try {
           const response = await axios.put(`/theme/updateTheme/${themeId}`, themeData);
           if (response.status === 201) {
@@ -330,9 +322,6 @@ function MyThemeDetail(props) {
           alert('테마 수정 중 오류가 발생했습니다.');
       }
   };
-
-    console.log("myDetailTheme - 229번줄")
-    console.log(myDetailTheme)
 
             /* 스탬프 변수 */
             const getStampImage = (stampImage) => {
@@ -430,35 +419,35 @@ function MyThemeDetail(props) {
               }
           };
   
+          const themeContents = myDetailTheme.themeContents;
+
           const themes = [
             {
               name: myDetailTheme.themeName,
               color: "black",
               icon: getStampImage(myDetailTheme.themeMainCategoryName),
               missions: [
-                  { name: `${myDetailTheme.themeSubCategoryName[0]} ${getMissionNameDetail(myDetailTheme.themeSubCategoryName[0])}` },
-                  { name: `${myDetailTheme.themeSubCategoryName[1]} ${getMissionNameDetail(myDetailTheme.themeSubCategoryName[1])}` },
-                  { name: `${myDetailTheme.themeSubCategoryName[2]} ${getMissionNameDetail(myDetailTheme.themeSubCategoryName[2])}` },
-                  { name: `${myDetailTheme.themeSubCategoryName[3]} ${getMissionNameDetail(myDetailTheme.themeSubCategoryName[3])}` },
-                  { name: `${myDetailTheme.themeSubCategoryName[4]} ${getMissionNameDetail(myDetailTheme.themeSubCategoryName[4])}` },
-            ],
+                { name: `${themeContents[0].themeSubCategoryName} ${getMissionNameDetail(themeContents[0].themeSubCategoryName)}` },
+                { name: `${themeContents[1].themeSubCategoryName} ${getMissionNameDetail(themeContents[1].themeSubCategoryName)}` },
+                { name: `${themeContents[2].themeSubCategoryName} ${getMissionNameDetail(themeContents[2].themeSubCategoryName)}` },
+                { name: `${themeContents[3].themeSubCategoryName} ${getMissionNameDetail(themeContents[3].themeSubCategoryName)}` },
+                { name: `${themeContents[4].themeSubCategoryName} ${getMissionNameDetail(themeContents[4].themeSubCategoryName)}` },
+          ],
             }];
+
+            console.log(myDetailTheme.themeMainCategoryName)
 
           const editThemes = [
               {
                 name: themeName,
                 color: "black",
                 icon: getStampImage(myDetailTheme.themeMainCategoryName),
-
                 missions: selectedThemes.slice(0, 5).map((theme, index) => {
                   const subCategoryName = theme.themeSubCategoryName;
                   const missionDetail = getMissionNameDetail(subCategoryName);
                   return { name: `${subCategoryName} ${missionDetail}` };
                 })
               }];
-  
-              console.log('themes')
-              console.log(themes)
   
               const handleStamp = (themeName, missionName) => {
                   setStamps((prev) => ({
@@ -470,8 +459,6 @@ function MyThemeDetail(props) {
                   }));
               };
               /* 스탬프 변수 */
-
-              console.log("selectedThemes : ", selectedThemes);
 
     return (
         <>
@@ -494,6 +481,7 @@ function MyThemeDetail(props) {
                                <img src={getThemeBackgroundImage(myDetailTheme.themeBackground)}  className="background-image" alt={myDetailTheme.themeName} />
                             )}
                             {/**/}
+
                             <div className='theme-path'>
                                 {theme.missions.map((mission, index) => (
                                     <div key={index} className={`mission-node ${
@@ -501,6 +489,8 @@ function MyThemeDetail(props) {
                                     }`}
                                     onClick = {() => handleStamp(theme.name, mission.name)}>
                                     <img src={theme.icon} alt={`${theme.name} icon`} className='mission-icon' />
+                                    
+
                                     <div className='mission-name'>{mission.name}</div>
                                     </div>
                                 ))}
@@ -521,7 +511,7 @@ function MyThemeDetail(props) {
                                   stamps[theme.name]?.[mission.name] ? "stapmed" : ""
                               }`}
                               onClick = {() => handleStamp(theme.name, mission.name)}>
-                              <img src={theme.icon} alt={`${theme.name} icon`} className='mission-icon' />
+                              <img src={themeContents[index].themeIsSuccess ? complete :theme.icon} alt={`${theme.name} icon`} className='mission-icon' />
                               <div className='mission-name'>{mission.name}</div>
                               </div>
                           ))}
@@ -617,7 +607,12 @@ function MyThemeDetail(props) {
                   <>
                   <div className='themeSubCategoryContainer'>
                           <span>소분류</span>
-                          <p>{myDetailTheme.themeSubCategoryName.join(", ")}</p>
+                          <p>
+                            {Array.isArray(myDetailTheme.themeContents) 
+                                ? myDetailTheme.themeContents.map(content => content.themeSubCategoryName).join(", ")
+                                : ''
+                            }
+                        </p>
                   </div>
                   </>
                 )}

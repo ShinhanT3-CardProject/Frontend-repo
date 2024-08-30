@@ -77,7 +77,7 @@ function MyThemeSearch(props) {
             <div className="entry">
               <ul className="collapsible theme-grid" data-collapsible="accordion">
                 {myThemes.map(myTheme => (
-                <li key={myTheme.id} onClick={() => moveToDetail(myTheme.id)}>
+                <li key={myTheme.themeId} onClick={() => moveToDetail(myTheme.themeId)}>
                   <div className="collapsible-header">
                     <div className='themeThumbnail'>
                     <img src={getThemeBackgroundImage(myTheme.themeBackground)} alt={myTheme.themeName} />

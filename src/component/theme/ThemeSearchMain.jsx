@@ -60,8 +60,8 @@ function ThemeSearchMain(props) {
     useEffect(() => {
       axios.get('/theme/findAllTheme')
            .then(response => {
-            const themeArray = Object.entries(response.data).map(([id, themeData]) => ({
-              id, ...themeData
+            const themeArray = Object.entries(response.data).map(([themeId, themeData]) => ({
+              themeId, ...themeData
             }));
             setThemes(themeArray);
            })
@@ -69,8 +69,6 @@ function ThemeSearchMain(props) {
             console.error("데이터를 가져오는 중 오류가 발생했습니다.", error);
            });
     }, []);
-
-    themes.forEach(theme => console.log('Theme ID: ', theme));
 
     return (
       <>
@@ -118,7 +116,7 @@ function ThemeSearchMain(props) {
           <div className="entry">
             <ul className="collapsible theme-grid" data-collapsible="accordion">
                 {handleFilterSearch.map(theme => (
-                  <li key={theme.id} onClick={() => moveToDetail(theme.id)}>
+                  <li key={theme.themeId} onClick={() => moveToDetail(theme.themeId)}>
                     <div className="collapsible-header">
                       <div className='themeThumbnail'>
                         <img src={getThemeBackgroundImage(theme.themeBackground)} alt={theme.themeName} />
