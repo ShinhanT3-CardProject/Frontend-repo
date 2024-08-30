@@ -22,28 +22,14 @@ function TransferComplete(props) {
   return (
     <div className="faq app-pages app-section">
       <div className="container">
-        <div className="pages-title">
-          <h2
-            style={{
-              textAlign: "center",
-              lineHeight: 1.5,
-              fontSize: 27,
-              fontWeight: "bold",
-            }}
-          >
+        <div className="point-complete-pages-title">
+          <h2 className="point-complete-h2">
             포인트 전환이 완료되었습니다.
             <br />
           </h2>
           <br />
-          <h2
-            style={{
-              textAlign: "center",
-              lineHeight: 1.5,
-              fontSize: 15,
-              fontWeight: "normal",
-            }}
-          >
-            잔여 포인트 : {totalPoints}P
+          <h2 className="point-complete-point">
+            잔여 포인트 : {totalPoints.toLocaleString()}P
             <br />
           </h2>
 
