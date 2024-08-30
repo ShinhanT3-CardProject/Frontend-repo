@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8800/api/theme', // 백엔드 기본 URL
+  baseURL: '/api/theme', // 백엔드 기본 URL
 });
 
 export const analyzeTheme = async (bucketList) => {
