@@ -7,7 +7,9 @@ import "asset/css/point.css";
 
 function PointMain(props) {
   const [totalPoints, setTotalPoints] = useState(0);
+  const [totalAccumulatedPoints, setTotalAccumulatedPoints] = useState(0);
   const [pointList, setPointList] = useState([]);
+  const [selected, setSelected] = useState("전체");
   const [userName, setUserName] = useState("");
   const [itemsToShow, setItemsToShow] = useState(5);
   const [chartOptions, setChartOptions] = useState({
@@ -60,10 +62,10 @@ function PointMain(props) {
     M.Collapsible.init(elems);
 
     fetchUserInfo();
-    fetchPointList();
     fetchTotalPoints();
     fetchCategoryData();
-  }, []);
+    fetchPointsListByType();
+  }, [selected]);
 
   const fetchTotalPoints = async () => {
     try {
@@ -74,18 +76,31 @@ function PointMain(props) {
     }
   };
 
-  const fetchPointList = async () => {
+  //선택에 따라 포인트 리스트를 가져옴
+  const fetchPointsListByType = async () => {
     try {
-      const response = await axios.get(`/point/all`);
+      let response;
+      if (selected === "전체") {
+        response = await axios.get(`/point/all`);
+      } else if (selected === "적립") {
+        response = await axios.get(`/point/added`);
+      } else if (selected === "사용") {
+        response = await axios.get(`/point/used`);
+      }
 
+      // 날짜순으로 정렬
       const sortedPoints = response.data.sort(
         (a, b) => new Date(b.createDate) - new Date(a.createDate)
       );
-      setPointList(sortedPoints); // 응답 데이터에서 포인트 리스트 설정
+      setPointList(sortedPoints); // 정렬된 포인트 리스트 설정
     } catch (error) {
-      console.error("포인트 리스트 데이터를 가져오는 중 오류 발생:", error);
+      console.error(
+        `${selected} 포인트 리스트 데이터를 가져오는 중 오류 발생:`,
+        error
+      );
     }
   };
+
   const fetchUserInfo = async () => {
     try {
       const response = await axios.get(`/point/info`);
@@ -103,6 +118,12 @@ function PointMain(props) {
       // 카테고리별 총합과 비율 데이터 설정
       const categoryTotals = data.categoryTotals || {};
       const categoryRatios = data.categoryRatios || {};
+
+      const totalAccumulatedPoints = Object.values(categoryTotals).reduce(
+        (acc, value) => acc + value,
+        0
+      );
+      setTotalAccumulatedPoints(totalAccumulatedPoints);
 
       const seriesData = [
         {
@@ -138,8 +159,13 @@ function PointMain(props) {
     }
   };
 
+  // 더보기 5개씩 증가하도록
   const loadMore = () => {
     setItemsToShow((prev) => prev + 5);
+  };
+
+  const handleClick = (select) => {
+    setSelected(select); // 클릭한 항목을 selected 상태로 설정
   };
 
   return (
@@ -157,11 +183,17 @@ function PointMain(props) {
                   fontSize: "1.2em",
                 }}
               >
-                {totalPoints.toLocaleString()}P
+                {totalPoints.toLocaleString()}P&nbsp;
+                <h3 className="point-h3">
+                  (총 누적 {totalAccumulatedPoints.toLocaleString()}P)
+                </h3>
               </span>{" "}
-              입니다
             </h2>
             <br></br>
+            {/* <h3 className="point-h3">
+              총 누적 포인트 {totalAccumulatedPoints.toLocaleString()}P{" "}
+            </h3> */}
+
             <div id="chart" style={{ width: "100%", height: "140px" }}>
               <ReactApexChart
                 options={chartOptions}
@@ -171,6 +203,7 @@ function PointMain(props) {
               />
             </div>
             <br></br>
+
             <h4 style={{ textAlign: "left", fontSize: 15 }}>
               <Link
                 to="/point/transfer"
@@ -180,6 +213,43 @@ function PointMain(props) {
               </Link>
             </h4>
             <hr></hr>
+            <div style={{ display: "flex", marginTop: "15px" }}>
+              <h4
+                onClick={() => handleClick("전체")}
+                style={{
+                  textAlign: "left",
+                  fontSize: 15,
+                  color: selected === "전체" ? "black" : "inherit",
+                  cursor: "pointer",
+                }}
+              >
+                전체
+              </h4>
+              &nbsp;&nbsp;&nbsp;
+              <h4
+                onClick={() => handleClick("적립")}
+                style={{
+                  textAlign: "left",
+                  fontSize: 15,
+                  color: selected === "적립" ? "black" : "inherit",
+                  cursor: "pointer",
+                }}
+              >
+                적립
+              </h4>
+              &nbsp;&nbsp;&nbsp;
+              <h4
+                onClick={() => handleClick("사용")}
+                style={{
+                  textAlign: "left",
+                  fontSize: 15,
+                  color: selected === "사용" ? "black" : "inherit",
+                  cursor: "pointer",
+                }}
+              >
+                사용
+              </h4>
+            </div>
           </div>
           <div className="entry">
             <ul className="collapsible" data-collapsible="accordion">
