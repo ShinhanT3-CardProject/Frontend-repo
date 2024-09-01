@@ -61,7 +61,7 @@ function RaidBattle() {
                         ...prevData.participants,
                         ...data.participants
                     ],
-                    contribution: prevData.contribution + data.contribution,
+                    contribution: data.contribution,
                     buff: prevData.buff
                 }));
 
