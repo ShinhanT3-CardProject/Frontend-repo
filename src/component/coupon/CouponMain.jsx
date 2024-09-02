@@ -79,7 +79,7 @@ function CouponMain(props) {
                     <div>
                       <span style={{ color: "#007FFF", fontSize: "1.2em" }}>
                         <br></br>
-                        최대 할인 : {coupon.maxDiscount}
+                        최대 할인 : {coupon.maxDiscount.toLocaleString()}
                       </span>
                       <i className="fa fa-plus"></i>
                     </div>
