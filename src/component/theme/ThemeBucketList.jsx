@@ -37,18 +37,17 @@ function ThemeBucketList(props) {
     return (
         <div className="bucketlist-container">
             <div className="bucketlist-form-wrapper">
-                <h2 className="bucketlist-title"> My Bucket List</h2>
+                <h2 className="bucketlist-title"> 나의 버킷리스트</h2>
                 <form onSubmit={handleSubmit} className="bucketlist-form">
                     {bucketList.map((item, index) => (
                         <div key={index} className="bucketlist-input-group">
                             <label className="bucketlist-label">
-                                Item {index + 1}:
+                                항목 {index + 1}:
                             </label>
                             <input
                                 type="text"
                                 value={item}
                                 onChange={(event) => handleInputChange(index, event)}
-                                placeholder={`Enter your bucket list item ${index + 1}`}
                                 className="bucketlist-input"
                             />
                         </div>
