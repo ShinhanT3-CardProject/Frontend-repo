@@ -13,6 +13,7 @@ import SearchRaid from "component/raid/SearchRaid";
 
 import cardIcon from "asset/image/cardIcon.png";
 
+
 function Home() {
   const navigate = useNavigate();
 
@@ -41,9 +42,8 @@ const getThemeBackgroundImage = (themeBackground) => {
   }
 };
 
-
   useEffect(() => {
-    axios.get('/theme/findAllTheme')
+    axios.get('/theme/findMyTheme')
         .then(response => {
             const themeArray = Object.entries(response.data).map(([id, themeData]) => ({
                 id, ...themeData

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Carousel } from 'react-responsive-carousel';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-
+import 'asset/css/carousel.css';
 const ThemeList = ({ themes, moveToDetail, getThemeBackgroundImage }) => {
 
     // 페이지가 다시 로드될 때마다 고유한 키 값을 부여하여 Carousel이 다시 렌더링되도록 함
