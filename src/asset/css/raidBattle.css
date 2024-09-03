@@ -28,7 +28,7 @@
 .attackLog {
     height: 30vh;
     background-color: black;
-    color:green;
+    color:lime;
     overflow: auto;
     padding: 0.5% 2%;
 }
