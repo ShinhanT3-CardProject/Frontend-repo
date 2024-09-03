@@ -1,0 +1,118 @@
+@font-face {
+    font-family: 'DungGeunMo';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.loading-game-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: #f0f8ff;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.score-board {
+    position: absolute;
+    top: 10%;
+    left: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.progress-bar {
+    position: absolute;
+    top: 20px;
+    width: 80%;
+    height: 20px;
+    background-color: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 1s linear;
+}
+
+.game-character {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    transition: top 0.3s ease, left 0.3s ease;
+}
+
+.loading-text {
+    font-family: 'DungGeunMo';
+    font-weight: bold;
+    bottom: 60px;
+    font-size: 18px;
+    color: #555;
+}
+
+.loading-complete {
+    text-align: center;
+}
+
+.loading-complete h2 {
+    font-family: 'DungGeunMo';
+    font-size: 36px;
+    color: #4caf50;
+}
+
+.loading-complete p {
+    font-family: 'DungGeunMo';
+    font-size: 24px;
+    color: #333;
+}
+
+.skip-button {
+    position: absolute;
+    top: 15%;
+    right: 1%;
+    width: 20%;
+    padding: 5px 10px;
+    background-color: rgba(255, 41, 41, 0.5);
+    color: black;
+    border: none;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.skip-button:hover {
+    background-color: rgba(255, 41, 41, 0.9);
+}
+
+.result-button{
+    background-color: #0046ff;
+;}
+
+/*hit effect 추가*/
+.hit-effect {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    pointer-events: none; /* 이펙트가 클릭 이벤트를 막지 않도록 */
+    animation: hitAnimation 0.5s ease-out forwards;
+}
+
+@keyframes hitAnimation {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+}
