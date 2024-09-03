@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'asset/css/bucketList.css';
 import { analyzeTheme } from 'asset/js/api';
-import LoadingSpinner from './LoadingSpinner'; // 로딩 스피너 컴포넌트 임포트
+import LoadingGame from './LoadingGame';
 
 function ThemeBucketList(props) {
     const [bucketList, setBucketList] = useState(['', '', '', '', '']);
-    const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
+    const [isLoading, setIsLoading] = useState(false);
+    const [result, setResult] = useState(null); // 분석 결과 저장
     const navigate = useNavigate();
 
     const handleInputChange = (index, event) => {
@@ -19,25 +20,45 @@ function ThemeBucketList(props) {
         event.preventDefault();
         console.log('Submitted Bucket List:', bucketList);
 
-        setIsLoading(true); // 로딩 시작
+        setIsLoading(true);
         try {
-            const result = await analyzeTheme(bucketList);
-            setIsLoading(false); // 로딩 끝
-            navigate('/analyzetheme', { state: { theme: result.theme, reason: result.details.join('\n') } });
+            const analysisResult = await analyzeTheme(bucketList);
+            setResult(analysisResult); // 분석 결과 저장
         } catch (error) {
             console.error('테마 분석 중 오류 발생:', error);
-            setIsLoading(false); // 로딩 끝
+            setIsLoading(false);
         }
     };
 
+    const handleLoadingComplete = () => {
+        if (result) {
+            navigate('/analyzetheme', {
+                state: {
+                    theme: result.theme,
+                    reason: result.details.join('\n'),
+                },
+            });
+        }
+    };
+
+    const handleSkip = () => {
+        setIsLoading(false);
+        handleLoadingComplete();
+    };
+
     if (isLoading) {
-        return <LoadingSpinner />; // 로딩 중일 때 로딩 스피너 표시
+        return (
+            <LoadingGame
+                onComplete={handleLoadingComplete}
+                onSkip={handleSkip}
+            />
+        );
     }
 
     return (
         <div className="bucketlist-container">
             <div className="bucketlist-form-wrapper">
-                <h2 className="bucketlist-title"> 나의 버킷리스트</h2>
+                <h2 className="bucketlist-title">나의 버킷리스트</h2>
                 <form onSubmit={handleSubmit} className="bucketlist-form">
                     {bucketList.map((item, index) => (
                         <div key={index} className="bucketlist-input-group">
@@ -47,12 +68,19 @@ function ThemeBucketList(props) {
                             <input
                                 type="text"
                                 value={item}
-                                onChange={(event) => handleInputChange(index, event)}
+                                onChange={(event) =>
+                                    handleInputChange(index, event)
+                                }
                                 className="bucketlist-input"
                             />
                         </div>
                     ))}
-                    <button type="submit" className="bucketlist-submit-button">제출하기</button>
+                    <button
+                        type="submit"
+                        className="bucketlist-submit-button"
+                    >
+                        제출하기
+                    </button>
                 </form>
             </div>
         </div>

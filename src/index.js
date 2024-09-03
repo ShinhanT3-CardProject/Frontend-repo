@@ -42,6 +42,7 @@ import RaidHistory from "component/raid/RaidHistory";
 import BucketListStart from "component/theme/BucketListStart";
 import CardRecommend from "component/card/CardRecommend";
 import SearchRaid from "component/raid/SearchRaid";
+import LoadingGame from "component/theme/LoadingGame";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -88,6 +89,7 @@ root.render(
           <Route path="/startBucket" element={<BucketListStart />} />
           <Route path="/bucketlist" element={<ThemeBucketList />} />
           <Route path="/analyzetheme" element={<ThemeAnalyzeResult />} />
+          <Route path="/loadingGame" element={<LoadingGame/>}/>
           <Route path="/stamp" element={<StampBoard />} />
         </Route>
       </Routes>
