@@ -8,16 +8,15 @@ import dailyLifeImage from 'asset/image/dailyLifeImage.jpg';
 import diningImage from 'asset/image/diningImage.jpg';
 import cultureImage from 'asset/image/cultureImage.jpg';
 
-function ThemeSearchMain(props) {
+function ThemeSearchResult(props) {
     const [searchKeyword, setSearchKeyword] = useState('');
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [themes, setThemes] = useState([]);
-    const [url, setUrl] = useState('findAllTheme');
     const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
     const [totalPages, setTotalPages] = useState(1); // 총 페이지 수 상태
 
     useEffect(() => {
-      axios.get(`/theme/${url}/${currentPage}`)
+      axios.get(`/theme/findAllTheme/${currentPage}`)
         .then(response => {
           const themeArray = Object.entries(response.data.content).map(([themeId, themeData]) => ({
             themeId, ...themeData
@@ -31,7 +30,7 @@ function ThemeSearchMain(props) {
 
       // 페이지가 변경될 때마다 페이지 상단으로 스크롤
       window.scrollTo(0, 0);
-    }, [currentPage, url]); // currentPage가 변경될 때마다 데이터 요청
+    }, [currentPage]); // currentPage가 변경될 때마다 데이터 요청
 
     const handlePageChange = (page) => {
       setCurrentPage(page);
@@ -58,23 +57,13 @@ function ThemeSearchMain(props) {
         default:
           return null;
       }
-    };      
+    };
 
     const handleCategoryClick = (category) => {
         if(selectedCategory === category) {
           setSelectedCategory(null)
         } else {
           setSelectedCategory(category);
-          setUrl('findByCategoryId/' + category);
-        }
-    };
-
-    const handleSearchClick = () => {
-        if(searchKeyword.length < 2) {
-          alert("검색어는 2글자 이상이어야 합니다.");
-          return;
-        } else {
-          setUrl('search/' + searchKeyword)
         }
     };
 
@@ -108,22 +97,17 @@ function ThemeSearchMain(props) {
             {/* 검색 영역 */}
             <div className='search-container'>
                 <span>검색</span>
-                <input 
-                  type = 'text' 
-                  placeholder = '검색어를 입력해주세요.' 
-                  value={searchKeyword} 
-                  onChange={(e) => setSearchKeyword(e.target.value)} 
-                />
-                <button onClick={handleSearchClick}>검색</button>
+                <input type = 'text' placeholder = '검색어를 입력해주세요.' value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)} />
+                <button>검색</button>
             </div>
             {/* 분류 영역 */}
             <div className='category-container'>
                 <span>분류</span>
-                <button onClick={() => handleCategoryClick(1)}>생활</button>
-                <button onClick={() => handleCategoryClick(2)}>쇼핑</button>
-                <button onClick={() => handleCategoryClick(3)}>외식/카페</button>
-                <button onClick={() => handleCategoryClick(4)}>문화/교육</button>
-                <button onClick={() => handleCategoryClick(5)}>여행/교통</button>
+                <button onClick={() => handleCategoryClick('생활')}>생활</button>
+                <button onClick={() => handleCategoryClick('쇼핑')}>쇼핑</button>
+                <button onClick={() => handleCategoryClick('외식/카페')}>외식/카페</button>
+                <button onClick={() => handleCategoryClick('문화/교육')}>문화/교육</button>
+                <button onClick={() => handleCategoryClick('여행/교통')}>여행/교통</button>
             </div>
           </div>
           <div className="entry">
@@ -154,4 +138,4 @@ function ThemeSearchMain(props) {
     );
 }
 
-export default ThemeSearchMain;
+export default ThemeSearchResult;
