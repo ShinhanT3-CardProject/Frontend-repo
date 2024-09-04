@@ -37,6 +37,10 @@ jobs:
       # 그걸로 cache가 hit 됐는지 안 됐는지를 알 수 있다.
       # 그 값이 true가 아닐 때만 npm install을 한다.
       # https://fe-developers.kakaoent.com/2022/220106-github-actions/
+
+    - name: Build the Docker image
+      run: CI=false npm run build
+
     - name: Install Dependencies
       if: steps.cache.outputs.cache-hit != 'true'
       run: npm install
