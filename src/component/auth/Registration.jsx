@@ -23,7 +23,7 @@ function Registration(props) {
         e.preventDefault();
         try {
             console.log(process.env.REACT_APP_SPRING_BASE_URL);
-            const response = await axios.post('/auth/registration', formData);
+            const response = await axios.post('/api/auth/registration', formData);
             navigate('/auth/login'); 
             alert(response.data);  // 성공 시 서버에서 받은 메시지를 알림으로 표시
         } catch (error) {

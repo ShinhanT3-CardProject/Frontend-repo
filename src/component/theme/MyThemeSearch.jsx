@@ -35,7 +35,7 @@ function MyThemeSearch(props) {
         };
 
         useEffect(() => {
-          axios.get('/theme/findMyTheme')
+          axios.get('/api/theme/findMyTheme')
                 .then(response => {
                   console.log(response.data);
                   const myThemeArray = Object.entries(response.data).map(([id, themeData]) => ({
