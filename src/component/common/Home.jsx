@@ -43,7 +43,7 @@ const getThemeBackgroundImage = (themeBackground) => {
 };
 
   useEffect(() => {
-    axios.get('/theme/findMyTheme')
+    axios.get('/api/theme/findMyTheme')
         .then(response => {
             const themeArray = Object.entries(response.data).map(([id, themeData]) => ({
                 id, ...themeData

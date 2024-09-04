@@ -28,7 +28,7 @@ function PointTransfer(props) {
     };
 
     try {
-      const response = await axios.post(`/point/create`, pointDTO); // 서버로 포인트 전환 요청 보내기
+      const response = await axios.post(`/api/point/create`, pointDTO); // 서버로 포인트 전환 요청 보내기
       console.log(response);
       if (response.data === 0) {
         alert("포인트 전환이 실패했습니다. 포인트 잔액을 확인하세요.");
@@ -43,7 +43,7 @@ function PointTransfer(props) {
 
   const fetchUserInfo = async () => {
     try {
-      const response = await axios.get(`/point/info`);
+      const response = await axios.get(`/api/point/info`);
       setUserName(response.data.userName);
     } catch (error) {
       console.error("사용자 정보를 가져오는 중 오류 발생:", error);
@@ -51,7 +51,7 @@ function PointTransfer(props) {
   };
   const fetchTotalPoints = async () => {
     try {
-      const response = await axios.get(`/point/total`);
+      const response = await axios.get(`/api/point/total`);
       setTotalPoints(response.data); // 응답 데이터에서 총 포인트 설정
     } catch (error) {
       console.error("총 포인트 데이터를 가져오는 중 오류 발생:", error);

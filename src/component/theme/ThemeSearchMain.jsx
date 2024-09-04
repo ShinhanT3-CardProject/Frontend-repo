@@ -17,7 +17,7 @@ function ThemeSearchMain(props) {
     const [totalPages, setTotalPages] = useState(1); // 총 페이지 수 상태
 
     useEffect(() => {
-      axios.get(`/theme/${url}/${currentPage}`)
+      axios.get(`/api/theme/${url}/${currentPage}`)
         .then(response => {
           const themeArray = Object.entries(response.data.content).map(([themeId, themeData]) => ({
             themeId, ...themeData
@@ -62,9 +62,10 @@ function ThemeSearchMain(props) {
 
     const handleCategoryClick = (category) => {
         if(selectedCategory === category) {
-          setSelectedCategory(null)
+          setSelectedCategory(null);  
         } else {
           setSelectedCategory(category);
+          setSearchKeyword(null);
           setUrl('findByCategoryId/' + category);
         }
     };

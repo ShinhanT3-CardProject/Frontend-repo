@@ -15,7 +15,7 @@ function CouponMain(props) {
 
   const fetchCouponList = async () => {
     try {
-      const response = await axios.get(`/coupon/usable`);
+      const response = await axios.get(`/api/coupon/usable`);
       setCouponList(response.data); // 응답 데이터에서 포인트 리스트 설정
     } catch (error) {
       console.error("포인트 리스트 데이터를 가져오는 중 오류 발생:", error);

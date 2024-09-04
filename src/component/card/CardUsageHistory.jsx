@@ -9,7 +9,7 @@ function CardUsageHistory() {
 
 
   useEffect(() => {
-    fetch(`/card/history`)
+    fetch(`/api/card/history`)
       .then((response) => response.json())
       .then((data) => {
         setUsageHistory(data);
