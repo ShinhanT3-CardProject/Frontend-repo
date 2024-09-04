@@ -6,11 +6,27 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "apexcharts": "^3.52.0",
+    "axios": "^1.7.4",
+    "dayjs": "^1.11.12",
+    "filter": "^0.1.1",
+    "i": "^0.3.7",
+    "jquery": "^3.7.1",
+    "materialize-css": "^1.0.0-rc.2",
     "react": "^18.3.1",
+    "react-apexcharts": "^1.4.1",
+    "react-d3-library": "^1.1.8",
     "react-dom": "^18.3.1",
+    "react-modal": "^3.16.1",
+    "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.26.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "react-select": "^5.8.0",
+    "styled-component": "^2.8.0",
+    "sweetalert2": "^11.12.4",
+    "web-vitals": "^2.1.4",
+    "@babel/plugin-proposal-private-property-in-object":"7.21.11"
+
   },
   "scripts": {
     "start": "react-scripts start",
@@ -35,5 +51,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {
+    "css-loader": "^7.1.2",
+    "postcss-loader": "^8.1.1",
+    "source-map-loader": "^5.0.0"
+  },
+  "proxy": "http://localhost:8800"
 }

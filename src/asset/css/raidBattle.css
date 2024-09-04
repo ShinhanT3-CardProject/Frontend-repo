@@ -1,0 +1,58 @@
+.raidContainer {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.raidInformation {
+    background-color: black;
+}
+
+.raidBackground {
+    display: block;
+    width: 100%;
+}
+
+.monster {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 60%;
+}
+
+.monsterDisplay {
+    position: relative;
+    display: inline-block;
+}
+  
+.attackLog {
+    height: 30vh;
+    background-color: black;
+    color:lime;
+    overflow: auto;
+    padding: 0.5% 2%;
+}
+
+.healthInformation {
+    text-align: center;
+}
+
+.healthBarContainer {
+    width: 100%; /* 체력 바의 전체 너비 */
+    height: 20px; /* 체력 바의 높이 */
+    background-color: darkred; /* 체력 바의 배경색 (비어있는 부분) */
+    overflow: hidden; /* 체력 바가 컨테이너를 벗어나지 않도록 */
+    margin: 0 auto;
+}
+
+.healthBar {
+    height: 100%; /* 체력 바의 높이 (컨테이너에 맞춤) */
+    background-color: green; /* 체력 바의 색상 (빨간색) */
+    transition: width 0.5s ease; /* 체력 바가 변화할 때 애니메이션 */
+}
+
+.raidUserContribution {
+    background-color: black;
+    color:lime;
+    padding: 0.5% 2%;
+}

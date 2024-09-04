@@ -1,0 +1,50 @@
+/* SOLoPLAY 텍스트와 컨트롤러 이미지를 포함하는 컨테이너 */
+.soloplay-logo-container {
+  display: flex;
+  align-items: center;
+}
+
+/* 컨트롤러 아이콘 스타일 */
+.soloplay-controller-icon,
+.user-icon img,
+.logout-icon {
+  width: 30px; /* 모든 아이콘의 너비를 동일하게 조정 */
+  height: auto;
+}
+
+/* SOLoPLAY 텍스트 스타일 */
+.soloplay-text {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+/* 유저 컨트롤 */
+.user-controls {
+  display: flex;
+  align-items: center;
+}
+
+.user-icon i {
+  font-size: 30px;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.logout-icon {
+  cursor: pointer;
+  margin-left: 10px; /* 로그아웃 아이콘과 사용자 아이콘 사이 간격 */
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* 오버레이가 활성화될 때 */
+.overlay.active {
+  display: block;
+}

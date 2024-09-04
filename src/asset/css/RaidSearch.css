@@ -1,0 +1,11 @@
+.raid-search-wrapper {
+    width: 90%;
+    max-height: 440px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.raid-ul {
+    max-height: 300px;
+    overflow-y: scroll;
+}

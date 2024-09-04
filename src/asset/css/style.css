@@ -77,6 +77,7 @@ body {
 	color: #999;
 	font-size: 13px;
 	font-family: 'Roboto', sans-serif;
+	margin-top: 50px;
 }
 
 body::-webkit-scrollbar {
@@ -91,7 +92,6 @@ h5,
 h6 {
 	padding: 0;
 	margin: 0;
-	color: #333;
 }
 
 h1 {
@@ -210,6 +210,9 @@ p {
 .panel-control-left {
 	float: left;
 	font-size: 20px;
+	height: 100vh;
+	margin-top: -1;
+	
 }
 
 .panel-control-left a i,
@@ -240,6 +243,7 @@ p {
 .panel-control-left ul {
 	padding: 0;
 	border: none;
+	height: 100%;
 }
 
 .panel-control-left ul li {
@@ -945,9 +949,9 @@ p {
 	padding: 30px 0 35px 0;
 }
 
-.app-pages {
+/* .app-pages {
 	margin-top: 50px;
-}
+} */
 
 .app-title {
 	margin-bottom: 20px;
@@ -2437,9 +2441,10 @@ border-bottom: 2px solid #80d6cf;
 	footer
 ===================*/
 footer {
-	background: #171717;
+	background: #092951;;
 	text-align: center;
-	padding: 30px 0 0;
+	padding: 20px 0 0;
+	margin-top: 40px;
 }
 
 footer h6 {
@@ -2490,12 +2495,16 @@ footer .icon-social .rss {
 footer ul li a {
 	color: #fff;
 }
+footer img {
+	width:50px;
+	border-radius: 10px;
+}
 
 footer .tel-fax-mail ul {
 	list-style: none;
 	padding: 0;
 	margin: 0;
-	color: #fff;
+	color: white;
 }
 
 footer .tel-fax-mail ul li {
@@ -2515,4 +2524,55 @@ footer .ft-bottom {
 	color: #fff;
 	border-top: 1px solid #232323;
 }
+
+.tel-fax-mail {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tel-fax-mail li {
+    margin: 0 10px;
+	font-size: 11px;
+}
+
+.tel-fax-mail img {
+    max-width: 40px;
+    margin-right: 20px;
+}
+
+.tel-fax-mail .separator {
+    width: 1px;
+    height: 60px;
+    background-color: white;
+    margin-right: 20px;
+}
+
+.tel-fax-mail ul {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.developer-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.developer-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.developer-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4열 */
+    grid-template-rows: repeat(2, auto); /* 2행 */
+    grid-gap: 10px; /* 각 셀 간격 */
+}
+
 

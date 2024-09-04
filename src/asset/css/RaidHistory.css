@@ -1,0 +1,129 @@
+.raid-card-wrapper {
+    margin-bottom: 20px;
+}
+
+
+.raid-card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 5px;
+    width: 100%;
+    height: 100%;
+    margin:0 auto;
+    padding-bottom: 20px;
+}
+
+.raid-card {
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 60px;
+    width: 90%;
+    height: 120px;
+    display: flex;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    justify-content: space-between;
+}
+
+.raid-card-image {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin-right: 15px;
+    position: relative;
+    display: flex;
+    border: 1px solid #A99FCD;
+    box-shadow: 1px 2px 1px #A99FCD;
+    background-color: #6b9abb;
+}
+
+.raid-card-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    box-shadow: 3px 5px 1px rgba(0, 0, 0, 0.25);
+    background-color: #020f30;
+}
+
+.raid-card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3px;
+    color: white;
+    width: 100%;
+    align-items: center;
+    padding: 0px 10px 35px 10px;
+    height: 40px;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.raid-card-header > h3 {
+    font-size: 13px;
+    float: left;
+    margin-left: 80px;
+    position: absolute;
+    margin-top: 40px;
+    font-weight: 900;
+}
+
+.raid-card-info {
+    display: flex;
+    justify-content: space-between;
+    background-color: #E6E4F2;
+    border-radius: 0px 0px 10px 10px;
+    padding:5px 30px 0px 30px;
+}
+
+.raid-card-info div {
+    text-align: center;
+}
+
+.raid-info-detail {
+    font-weight: bold;
+    color: #333;
+}
+
+.raid-card-button {
+    background-color: #6b5bfb;
+    color: white;
+    padding: 8px 1px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 9px;
+    width: 55px;
+    margin-top: 40px;
+    box-shadow: 1px 2px 1px #A99FCD;
+
+
+}
+
+.raid-card-button.fail {
+    background-color: #ccc;
+    color: black;
+}
+
+.raid-card-button.received {
+    background-color: #1E8B1E;
+}
+
+.raid-card-button:not(.received):not(.fail):hover {
+    background-color: #5746c3;
+}
+
+.history-title{
+    display: block;
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    top: 20px;
+    padding-bottom: 10px;
+}
+
+
