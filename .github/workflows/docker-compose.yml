@@ -56,7 +56,7 @@ jobs:
       with:
         command: |
           sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
-          sudo docker pull ${{secrets.DOCKER_REPO}}/front
+          sudo docker pull ${{secrets.DOCKER_REPO}}/soloplay:latest
           sudo docker run -it -p 80:80 monlang/soloplay:latest
         host: ${{secrets.HOST}}
         user: ${{secrets.USERNAME}}
