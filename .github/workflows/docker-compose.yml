@@ -42,7 +42,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
     - name: Build the Docker image
-      run: docker build -t monlang/soloplay .
+      run: docker build -t monlang/soloplay:latest .
 
     - name: Tagging
       run: docker tag monlang/soloplay:latest monlang/soloplay:latest
