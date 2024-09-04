@@ -55,6 +55,11 @@ jobs:
       id: deploy
       with:
         command: |
+          CONTAINER_ID=$(sudo docker ps -q --filter "publish=80-80")
+          if [ ! -z "$CONTAINER_ID" ]; then
+              sudo docker stop $CONTAINER_ID
+              sudo docker rm $CONTAINER_ID
+            fi
           sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
           sudo docker pull ${{secrets.DOCKER_REPO}}/soloplay:latest
           sudo docker run -p 80:80 monlang/soloplay:latest
