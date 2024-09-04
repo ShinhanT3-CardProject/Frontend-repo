@@ -57,7 +57,7 @@ jobs:
         command: |
           sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
           sudo docker pull ${{secrets.DOCKER_REPO}}/front
-          sudo docker-compose -f /home/soloplay/docker-compose.yml up -d
+          sudo docker run -it -p 80:80 monlang/soloplay:latest
         host: ${{secrets.HOST}}
         user: ${{secrets.USERNAME}}
         key: ${{secrets.KEY}}
