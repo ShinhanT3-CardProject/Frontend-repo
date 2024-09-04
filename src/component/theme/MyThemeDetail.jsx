@@ -138,7 +138,7 @@ function MyThemeDetail(props) {
   useEffect(() => {
     const fetchData = async() => {
       try {
-        const { data : myDetailThemeResponse }  = await axios.get(`/theme/findThemeDetail/${themeId}`);
+        const { data : myDetailThemeResponse }  = await axios.get(`/api/theme/findThemeDetail/${themeId}`);
             setMyDetailTheme(myDetailThemeResponse);
             setInitialThemeData(myDetailThemeResponse);
             setThemeName(myDetailThemeResponse.themeName);
@@ -226,7 +226,7 @@ function MyThemeDetail(props) {
             
           }).then((result) => {
             if (result.isConfirmed) {
-              axios.delete(`/theme/deleteTheme/${themeId}`)
+              axios.delete(`/api/theme/deleteTheme/${themeId}`)
                   .then(response => {
                     console.log("테마가 성공적으로 삭제되었습니다.");
                     navigate('/myThemeSearch');
@@ -298,7 +298,7 @@ function MyThemeDetail(props) {
       };
 
       try {
-          const response = await axios.put(`/theme/updateTheme/${themeId}`, themeData);
+          const response = await axios.put(`/api/theme/updateTheme/${themeId}`, themeData);
           if (response.status === 201) {
               console.log("테마가 성공적으로 수정되었습니다.")
               alert("테마가 성공적으로 수정되었습니다.");

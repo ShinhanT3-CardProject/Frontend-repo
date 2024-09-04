@@ -16,7 +16,7 @@ function NavBar({ togglePanel }) {
     try {
       // 서버에 로그아웃 요청을 보냅니다.
       const response = await axios.post(
-        "/auth/logout",
+        "/api/auth/logout",
         {},
         { withCredentials: true }
       );

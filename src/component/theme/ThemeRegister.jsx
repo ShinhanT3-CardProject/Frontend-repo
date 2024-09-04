@@ -150,7 +150,7 @@ function ThemeRegister(props) {
                 mainCategory: { "themeMainCategoryId": selectedCategory }
             };
             console.log(themeData);
-            const response = await axios.post('/theme/insertTheme', themeData);
+            const response = await axios.post('/api/theme/insertTheme', themeData);
             if (response.status === 201) {
                 alert("테마가 성공적으로 등록되었습니다.");
                 navigate('/themeSearchAll');
