@@ -95,7 +95,7 @@ const PanelControl = forwardRef(({ closePanel }, ref) => {
               </li>
               <li>
                 <Link to="/SearchRaid" onClick={closePanel}>
-                  레이드조회
+                  레이드 조회
                 </Link>
               </li>
               <li>
