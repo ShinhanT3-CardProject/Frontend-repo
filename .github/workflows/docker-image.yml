@@ -14,15 +14,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Login Dockerhub
+
+    - name: Log in to Docker Hub
       env:
-        DOCKER_USERNAME: ${{secrets.DOCKERHUB_USERNAME}}
-        DOCKER_PASSWORD: ${{secrets.DOCKERHUB_PASSWORD}}
-      run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD  
+        DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+      run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
     - name: Build the Docker image
       run: docker build -t monlang/soloplay .
-    - name: taging
+
+    - name: Tagging
       run: docker tag monlang/soloplay:latest monlang/soloplay:latest
-    - name: Push to Dockerhub
+
+    - name: Push to Docker Hub
       run: docker push monlang/soloplay:latest
