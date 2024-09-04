@@ -29,3 +29,20 @@ jobs:
 
     - name: Push to Docker Hub
       run: docker push monlang/soloplay:latest
+
+    - name: Deploy to server
+      uses: fifsky/ssh-action@master
+      id: deploy
+      with:
+        command: |
+          sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+          sudo docker pull ${{secrets.DOCKER_REPO}}/front
+          sudo docker-compose -f /home/soloplay/docker-compose.yml up -d
+        host: ${{secrets.HOST}}
+        user: ${{secrets.USERNAME}}
+        key: ${{secrets.KEY}}
+
+    - name: make .env
+      run: |
+        touch .env
+        echo "${{ secrets.SECRET_ENV }}" > .env
