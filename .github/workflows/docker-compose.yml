@@ -2,11 +2,12 @@ name: Docker Image CI
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   pull_request:
-    branches: ["main"]
+    branches: [ "main" ]
 
 jobs:
+
   build:
 
     runs-on: ubuntu-latest
@@ -14,23 +15,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Cache node modules
-      uses: actions/cache@v2
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-modules-
-
-    - name: Install Dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
-      run: npm install
-
-    - name: Create .env file
+    - name: make .env
       run: |
         touch .env
         echo "${{ secrets.SECRET_ENV }}" > .env
-
+  
     - name: Build the Docker image
       run: CI=false npm run build
 
@@ -41,7 +30,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
     - name: Build the Docker image
-      run: docker build -t ${{secrets.DOCKER_REPO}}/soloplay .
+      run: docker build -t monlang/soloplay .
 
     - name: Tagging
       run: docker tag monlang/soloplay:latest monlang/soloplay:latest
@@ -61,7 +50,3 @@ jobs:
         user: ${{secrets.USERNAME}}
         key: ${{secrets.KEY}}
 
-    - name: make .env
-      run: |
-        touch .env
-        echo "${{ secrets.SECRET_ENV }}" > .env
