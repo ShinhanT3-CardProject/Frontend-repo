@@ -41,20 +41,20 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
     - name: Build the Docker image
-      run: docker build -t ${{secrets.DOCKER_REPO}}/front .
+      run: docker build -t ${{secrets.DOCKER_REPO}}/soloplay .
 
     - name: Tagging
-      run: docker tag ${{secrets.DOCKER_REPO}}/front:latest ${{secrets.DOCKER_REPO}}/front:latest
+      run: docker tag ${{secrets.DOCKER_REPO}}/soloplay:latest ${{secrets.DOCKER_REPO}}/soloplay:latest
 
     - name: Push to Docker Hub
-      run: docker push ${{secrets.DOCKER_REPO}}/front:latest
+      run: docker push ${{secrets.DOCKER_REPO}}/soloplay:latest
 
     - name: Deploy to server
       uses: fifsky/ssh-action@master
       with:
         command: |
           sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
-          sudo docker pull ${{secrets.DOCKER_REPO}}/front:latest
+          sudo docker pull ${{secrets.DOCKER_REPO}}/soloplay:latest
           sudo docker-compose -f /home/soloplay/docker-compose.yml up -d
         host: ${{secrets.HOST}}
         user: ${{secrets.USERNAME}}
