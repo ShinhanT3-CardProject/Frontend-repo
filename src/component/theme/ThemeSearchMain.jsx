@@ -12,63 +12,71 @@ function ThemeSearchMain(props) {
     const [searchKeyword, setSearchKeyword] = useState('');
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [themes, setThemes] = useState([]);
+    const [url, setUrl] = useState('findAllTheme');
+    const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
+    const [totalPages, setTotalPages] = useState(1); // 총 페이지 수 상태
+
+    useEffect(() => {
+      axios.get(`/theme/${url}/${currentPage}`)
+        .then(response => {
+          const themeArray = Object.entries(response.data.content).map(([themeId, themeData]) => ({
+            themeId, ...themeData
+          }));
+          setThemes(themeArray);
+          setTotalPages(response.data.totalPages); // 총 페이지 수 업데이트
+        })
+        .catch(error => {
+          console.error("데이터를 가져오는 중 오류가 발생했습니다.", error);
+        });
+
+      // 페이지가 변경될 때마다 페이지 상단으로 스크롤
+      window.scrollTo(0, 0);
+    }, [currentPage, url]); // currentPage가 변경될 때마다 데이터 요청
+
+    const handlePageChange = (page) => {
+      setCurrentPage(page);
+    };
 
     const navigate = useNavigate();
     const moveToDetail = (themeId) => {
       navigate(`/themeDetail/${themeId}`);
     };
 
-        //배경이미지 가져오기
-        const getThemeBackgroundImage = (themeBackground) => {
-          switch (themeBackground) {
-            case 'shoppingImage':
-              return shoppingImage;
-            case 'travelImage':
-              return travelImage;
-            case 'dailyLifeImage':
-              return dailyLifeImage;
-            case 'diningImage':
-              return diningImage;
-            case 'cultureImage':
-              return cultureImage;
-            default:
-              return null;
-          }
-        };
-
-    const handleFilterSearch = themes.filter(theme => {
-      const nameSearch = searchKeyword.toLowerCase();
-      const keywordSearch = nameSearch === '' || 
-            theme.themeName.toLowerCase().includes(nameSearch) || 
-            theme.themeMainCategoryName.toLowerCase().includes(searchKeyword.toLowerCase());
-      
-      const categorySearch = selectedCategory === null || theme.themeMainCategoryName.toLowerCase().includes(selectedCategory.toLowerCase());
-
-      return keywordSearch && categorySearch;
-    });
-      
+    //배경이미지 가져오기
+    const getThemeBackgroundImage = (themeBackground) => {
+      switch (themeBackground) {
+        case 'shoppingImage':
+          return shoppingImage;
+        case 'travelImage':
+          return travelImage;
+        case 'dailyLifeImage':
+          return dailyLifeImage;
+        case 'diningImage':
+          return diningImage;
+        case 'cultureImage':
+          return cultureImage;
+        default:
+          return null;
+      }
+    };      
 
     const handleCategoryClick = (category) => {
         if(selectedCategory === category) {
           setSelectedCategory(null)
         } else {
           setSelectedCategory(category);
+          setUrl('findByCategoryId/' + category);
         }
     };
 
-    //백엔드 데이터 가져오기
-    useEffect(() => {
-      axios.get('/theme/findAllTheme')
-           .then(response => {
-            const themeArray = Object.entries(response.data).map(([themeId, themeData]) => ({
-              themeId, ...themeData
-            }));
-            setThemes(themeArray);
-           })
-           .catch(error => {
-            console.error("데이터를 가져오는 중 오류가 발생했습니다.", error);
-           });
-    }, []);
+    const handleSearchClick = () => {
+        if(searchKeyword.length < 2) {
+          alert("검색어는 2글자 이상이어야 합니다.");
+          return;
+        } else {
+          setUrl('search/' + searchKeyword)
+        }
+    };
 
     return (
       <>
@@ -100,22 +108,27 @@ function ThemeSearchMain(props) {
             {/* 검색 영역 */}
             <div className='search-container'>
                 <span>검색</span>
-                <input type = 'text' placeholder = '검색어를 입력해주세요.' value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)} />
-            {/* <button onClick={handleFilterSearch}>검색</button> */}
+                <input 
+                  type = 'text' 
+                  placeholder = '검색어를 입력해주세요.' 
+                  value={searchKeyword} 
+                  onChange={(e) => setSearchKeyword(e.target.value)} 
+                />
+                <button onClick={handleSearchClick}>검색</button>
             </div>
             {/* 분류 영역 */}
             <div className='category-container'>
                 <span>분류</span>
-                <button onClick={() => handleCategoryClick('생활')}>생활</button>
-                <button onClick={() => handleCategoryClick('쇼핑')}>쇼핑</button>
-                <button onClick={() => handleCategoryClick('외식/카페')}>외식/카페</button>
-                <button onClick={() => handleCategoryClick('문화/교육')}>문화/교육</button>
-                <button onClick={() => handleCategoryClick('여행/교통')}>여행/교통</button>
+                <button onClick={() => handleCategoryClick(1)}>생활</button>
+                <button onClick={() => handleCategoryClick(2)}>쇼핑</button>
+                <button onClick={() => handleCategoryClick(3)}>외식/카페</button>
+                <button onClick={() => handleCategoryClick(4)}>문화/교육</button>
+                <button onClick={() => handleCategoryClick(5)}>여행/교통</button>
             </div>
           </div>
           <div className="entry">
             <ul className="collapsible theme-grid" data-collapsible="accordion">
-                {handleFilterSearch.map(theme => (
+                {themes.map(theme => (
                   <li key={theme.themeId} onClick={() => moveToDetail(theme.themeId)}>
                     <div className="collapsible-header">
                       <div className='themeThumbnail'>
@@ -124,9 +137,16 @@ function ThemeSearchMain(props) {
                     </div>
                     <span className='themeTitle'>{theme.themeName}</span>
                   </li>
-
                 ))}
             </ul>
+          </div>
+          <div>
+            {/* 페이지 내비게이션 */}
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button key={index + 1} onClick={() => handlePageChange(index + 1)}>
+                {index + 1}
+              </button>
+            ))}
           </div>
         </div> {/* container */}
       </div> {/* faq app-pages app-section */}
