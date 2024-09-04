@@ -7,7 +7,7 @@ import axios from "axios";
 import "asset/css/nav.css";
 
 // NavBar 컴포넌트는 상단 네비게이션 바를 렌더링합니다.
-function NavBar({ togglePanel }) {
+function NavBar({ togglePanel, navIconRef }) {
   // AuthContext에서 user와 setUser 함수를 가져옵니다.
   const { user, setUser } = useContext(AuthContext);
 
@@ -38,7 +38,12 @@ function NavBar({ togglePanel }) {
       <div className="container">
         <div className="panel-control-left">
           {/* 패널을 열기 위한 아이콘 */}
-          <a href="#" onClick={togglePanel} className="sidenav-control">
+          <a
+            href="#"
+            onClick={togglePanel}
+            ref={navIconRef}
+            className="sidenav-control"
+          >
             <i className="fa fa-align-left"></i>
           </a>
         </div>

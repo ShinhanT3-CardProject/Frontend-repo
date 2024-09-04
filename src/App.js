@@ -9,10 +9,11 @@ function App() {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [user, setUser] = useState(null); // 사용자 상태 관리
   const panelRef = useRef(null);
+  const navIconRef = useRef(null); // 사이드바 아이콘 참조
 
   const togglePanel = (event) => {
     event.preventDefault(); // 기본 링크 동작 방지
-    setIsPanelOpen(!isPanelOpen);
+    setIsPanelOpen((prevState) => !prevState);
   };
 
   const closePanel = () => {
@@ -20,10 +21,15 @@ function App() {
   };
 
   useEffect(() => {
-    // 사이드바 외부 클릭을 감지하는 이벤트 리스너 설정
+    // 사이드바 외부 클릭
     const handleClickOutside = (event) => {
-      if (panelRef.current && !panelRef.current.contains(event.target)) {
-        closePanel(); // 사이드바 외부를 클릭하면 사이드바를 닫음
+      if (
+        panelRef.current && //
+        !panelRef.current.contains(event.target) &&
+        navIconRef.current &&
+        !navIconRef.current.contains(event.target)
+      ) {
+        closePanel(); // 사이드바 닫기
       }
     };
 
@@ -35,7 +41,7 @@ function App() {
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>
-      <NavBar togglePanel={togglePanel} />
+      <NavBar togglePanel={togglePanel} navIconRef={navIconRef} />
       <div className="App">
         <div className="main">
           {isPanelOpen && (
