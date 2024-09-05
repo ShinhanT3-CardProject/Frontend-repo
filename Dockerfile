@@ -3,8 +3,7 @@ FROM node:20 as builder
 # 작업 폴더를 만들고 npm 설치
 WORKDIR /usr/src/app
 COPY package.json /usr/src/app/package.json
-RUN npm install --silent
-RUN npm install react-scripts@3.4.1 -g --silent
+RUN npm install 
 
 # 소스를 작업폴더로 복사하고 빌드
 COPY . /usr/src/app
