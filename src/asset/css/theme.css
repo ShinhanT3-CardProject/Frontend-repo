@@ -251,7 +251,17 @@ display: block;
     font-weight: bold;
     border: 0px;
     padding: 5px 10px;
-    width: 80px;
+    width: 100px;
+}
+
+.bringThemeBtn{
+    background-color: red;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: 0px;
+    padding: 5px 10px;
+    width: 150px;
 }
 
 .themeRemoveBtn, .themeEditCancleBtn {
