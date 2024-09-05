@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import shoppingImage from 'asset/image/shoppingImage.jpg'; // 예시 이미지
@@ -19,7 +19,7 @@ function ThemeDetail(props) {
     const { themeId } = useParams();
 
     const [stamps, setStamps]  = useState({}); /* 스탬프 변수 */
-
+    const navigate = useNavigate();
     useEffect(() => {
         axios.get(`/api/theme/findThemeDetail/${themeId}`)
                 .then(response => {
@@ -151,6 +151,21 @@ function ThemeDetail(props) {
             }
         };
 
+        /*테마 가져오기 */
+        const handleRegister = () => {
+            if(window.confirm("테마를 가져오시겠습니까?")){
+                navigate('/themeRegister', {
+                    state: {
+                        theme: detailTheme.themeContents.map(content => content.themeSubCategoryName).join(", "),
+                        reason: detailTheme.themeDescription,
+                        mainCategory: detailTheme.themeMainCategoryName
+                    }
+                });
+            }else{
+
+            }
+        }
+
         const themeContents = detailTheme.themeContents;
 
         const themes = [
@@ -249,6 +264,7 @@ function ThemeDetail(props) {
                     <Link to={'/themeSearchAll'}>
                     <button className='moveThemeListBtn'>목록보기</button>
                     </Link>
+                    <button className='bringThemeBtn' onClick={handleRegister}>테마 가져오기</button>
                 </div>
 
             </div> {/* container */}
