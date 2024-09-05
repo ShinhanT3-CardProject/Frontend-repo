@@ -57,5 +57,5 @@
     "postcss-loader": "^8.1.1",
     "source-map-loader": "^5.0.0"
   },
-  "proxy": "http://localhost:8800"
+  "proxy": "http://soloplay-db.kro.kr:8080"
 }
