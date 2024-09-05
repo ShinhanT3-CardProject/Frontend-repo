@@ -23,6 +23,45 @@ function MyThemeDetail(props) {
   const [isEditMode, setIsEditMode] = useState(false);
   const { themeId } = useParams();
   const [stamps, setStamps]  = useState({}); /* 스탬프 변수 */
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+
+  // 모달을 열고 닫는 함수
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  // 랜덤 포인트 지급 
+  const giveRandomPoint = async (themeContentId) => {
+    try {
+      const response = await axios.post('/api/theme/random', { themeContentId });
+
+      // 응답 데이터에서 메시지를 추출
+      const result = response.data;
+
+      if (response.status === 200) {
+        setModalMessage(result); 
+        setModalMessage('포인트 지급에 실패했습니다.'); 
+      }
+      openModal(); 
+    } catch (error) {
+      if (error.response) {
+        // 요청이 이루어졌고 서버가 상태 코드로 응답했지만, 요청이 실패했을 때
+        console.error('응답 오류:', error.response.data); // 서버 응답 데이터
+        console.error('상태 코드:', error.response.status); // 상태 코드
+        console.error('헤더:', error.response.headers); // 응답 헤더
+        setModalMessage('포인트 지급에 실패했습니다.');
+    } else if (error.request) {
+        // 요청이 이루어졌지만 응답을 받지 못했을 때
+        console.error('요청 오류:', error.request);
+        setModalMessage('서버 응답을 받지 못했습니다.');
+    } else {
+        // 오류를 발생시킨 요청 설정 문제
+        console.error('설정 오류:', error.message);
+        setModalMessage('요청 설정에 오류가 발생했습니다.');
+    }
+    openModal();
+    }
+  };
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -435,7 +474,7 @@ function MyThemeDetail(props) {
                 })
               }];
   
-              const handleStamp = (themeName, missionName) => {
+              const handleStamp = (themeName, missionName, themeContentId) => {
                   setStamps((prev) => ({
                   ...prev,
                   [themeName]: {
@@ -443,6 +482,9 @@ function MyThemeDetail(props) {
                       [missionName]: true,
                   },
                   }));
+                  
+                  // 포인트 지급 요청
+                  giveRandomPoint(themeContentId);
               };
 
     return (
@@ -470,7 +512,7 @@ function MyThemeDetail(props) {
                                     <div key={index} className={`mission-node ${
                                         stamps[theme.name]?.[mission.name] ? "stapmed" : ""
                                     }`}
-                                    onClick = {() => handleStamp(theme.name, mission.name)}>
+                                    onClick = {() => handleStamp(theme.name, mission.name, mission.themeContentId)}>
                                     <img src={theme.icon} alt={`${theme.name} icon`} className='mission-icon' />
                                     <div className='mission-name'>{mission.name}</div>
                                     </div>
@@ -490,7 +532,7 @@ function MyThemeDetail(props) {
                               <div key={index} className={`mission-node ${
                                   stamps[theme.name]?.[mission.name] ? "stapmed" : ""
                               }`}
-                              onClick = {() => handleStamp(theme.name, mission.name)}>
+                              onClick = {() => handleStamp(theme.name, mission.name, mission.themeContentId)}>
                               <img src={themeContents[index].themeIsSuccess ? complete :theme.icon} alt={`${theme.name} icon`} className='mission-icon' />
                               <div className='mission-name'>{mission.name}</div>
                               </div>
@@ -665,6 +707,17 @@ function MyThemeDetail(props) {
 
             </div>
             </div>{" "}
+            {/* 미션 달성 모달 */}
+            {isModalOpen && (
+              <div className='modal'>
+                <div className='modal-content'>
+                  <h2>미션 완료</h2>
+                  <h2>포인트 지급</h2>
+                  <p>{modalMessage}</p>
+                  <button onClick={closeModal}>닫기</button>
+                </div>
+              </div>
+            )}
         </div>{" "}
         </>
     );
