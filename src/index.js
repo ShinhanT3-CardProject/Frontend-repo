@@ -56,51 +56,49 @@ const RequireAuth = ({ children }) => {
 
   return children;
 };
-
 const AppWrapper = () => {
   return (
-    <RequireAuth>
-      <Routes>
-        <Route path="/" element={<App />}>
-          {/* 메인 */}
-          <Route index element={<Home />} />
-          <Route path="/auth/login" element={<Login />} />
-          <Route path="/auth/registration" element={<Registration />} />
-          
-          {/* 포인트 */}
-          <Route path="/point" element={<PointMain />} />
-          <Route path="/point/transfer" element={<PointTransfer />} />
-          <Route path="/point/transfer/complete" element={<TransferComplete />} />
+    <Routes>
+      <Route path="/" element={<App />}>
+        {/* 인증이 필요 없는 페이지들 */}
+        <Route index element={<RequireAuth><Home /></RequireAuth>} />
+        <Route path="/auth/login" element={<Login />} />
+        <Route path="/auth/registration" element={<Registration />} />
 
-          {/* 쿠폰 */}
-          <Route path="/coupon" element={<CouponMain />} />
+        {/* 인증이 필요한 페이지들 */}
+        <Route path="/point" element={<RequireAuth><PointMain /></RequireAuth>} />
+        <Route path="/point/transfer" element={<RequireAuth><PointTransfer /></RequireAuth>} />
+        <Route path="/point/transfer/complete" element={<RequireAuth><TransferComplete /></RequireAuth>} />
 
-          {/* 카드 */}
-          <Route path="/cardList" element={<CardList />} />
-          <Route path="/cardUsage" element={<CardUsageHistory />} />
-          <Route path="/cardRecommend" element={<CardRecommend />} />
+        {/* 쿠폰 */}
+        <Route path="/coupon" element={<RequireAuth><CouponMain /></RequireAuth>} />
 
-          {/* 레이드 */}
-          <Route path="/raidHistory" element={<RaidHistory />} />
-          <Route path="/raidBattle/:raidId" element={<RaidBattle />} />
-          <Route path="/SearchRaid" element={<SearchRaid />} />
+        {/* 카드 */}
+        <Route path="/cardList" element={<RequireAuth><CardList /></RequireAuth>} />
+        <Route path="/cardUsage" element={<RequireAuth><CardUsageHistory /></RequireAuth>} />
+        <Route path="/cardRecommend" element={<RequireAuth><CardRecommend /></RequireAuth>} />
 
-          {/* 테마 */}
-          <Route path="/themeSearchAll" element={<ThemeSearchMain />} />
-          <Route path="/myThemeSearch" element={<MyThemeSearch />} />
-          <Route path="/themeDetail/:themeId" element={<ThemeDetail />} />
-          <Route path="/myThemeDetail/:themeId" element={<MyThemeDetail />} />
-          <Route path="/themeRegister" element={<ThemeRegister />} />
-          <Route path="/startBucket" element={<BucketListStart />} />
-          <Route path="/bucketlist" element={<ThemeBucketList />} />
-          <Route path="/analyzetheme" element={<ThemeAnalyzeResult />} />
-          <Route path="/loadingGame" element={<LoadingGame/>}/>
-          <Route path="/stamp" element={<StampBoard />} />
-        </Route>
-      </Routes>
-    </RequireAuth>
+        {/* 레이드 */}
+        <Route path="/raidHistory" element={<RequireAuth><RaidHistory /></RequireAuth>} />
+        <Route path="/raidBattle/:raidId" element={<RequireAuth><RaidBattle /></RequireAuth>} />
+        <Route path="/SearchRaid" element={<RequireAuth><SearchRaid /></RequireAuth>} />
+
+        {/* 테마 */}
+        <Route path="/themeSearchAll" element={<RequireAuth><ThemeSearchMain /></RequireAuth>} />
+        <Route path="/myThemeSearch" element={<RequireAuth><MyThemeSearch /></RequireAuth>} />
+        <Route path="/themeDetail/:themeId" element={<RequireAuth><ThemeDetail /></RequireAuth>} />
+        <Route path="/myThemeDetail/:themeId" element={<RequireAuth><MyThemeDetail /></RequireAuth>} />
+        <Route path="/themeRegister" element={<RequireAuth><ThemeRegister /></RequireAuth>} />
+        <Route path="/startBucket" element={<RequireAuth><BucketListStart /></RequireAuth>} />
+        <Route path="/bucketlist" element={<RequireAuth><ThemeBucketList /></RequireAuth>} />
+        <Route path="/analyzetheme" element={<RequireAuth><ThemeAnalyzeResult /></RequireAuth>} />
+        <Route path="/loadingGame" element={<RequireAuth><LoadingGame /></RequireAuth>} />
+        <Route path="/stamp" element={<RequireAuth><StampBoard /></RequireAuth>} />
+      </Route>
+    </Routes>
   );
 };
+
 
 root.render(
   <BrowserRouter>
