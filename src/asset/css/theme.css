@@ -365,3 +365,50 @@ display: block;
 }
 
 /* 테마 등록 끝 */
+
+/* 페이지네이션 버튼 영역 */
+
+.container {
+    max-width: none;
+}
+
+.pageBox {
+    display: flex;
+    justify-content: center;
+}
+
+.paginationContainer{
+    margin: 0 5px;
+}
+
+.pageBtn {
+    background: #007FFF;
+    color: white;
+    font-size: 12px !important;
+    padding: 0 !important;
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+}
+
+.pageBtn:last-child {
+    margin-right: 0;
+}
+
+.pageArrow {
+    width: 25px !important;
+    height: 25px;
+    text-align: center !important;
+    padding: 0;
+    background: #888888;
+}
+
+button:last-child {
+    /* margin-right: 0; */
+}
+
+.paginationContainer {
+    display: flex;
+}
+
+/* 페이지네이션 버튼 영역 */
