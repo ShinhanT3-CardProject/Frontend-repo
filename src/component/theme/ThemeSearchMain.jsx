@@ -16,6 +16,18 @@ function ThemeSearchMain(props) {
     const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
     const [totalPages, setTotalPages] = useState(1); // 총 페이지 수 상태
 
+    /* 페이징 영역 */
+
+    const [firstNum, setFirstNum ] = useState(1);
+    /* const [lastNum, setLastNum ] = useState(0); */
+    const [indexPage, setIndexPage] = useState(0);
+    const [addIndex, setAddIndex] = useState(0);
+    const lineCount = 10;
+    const [lastIs, setLastIs] = useState(false);
+    const [firstIs, setFirstIs] = useState(false);
+
+    /* 페이징 영역 */
+
     useEffect(() => {
       axios.get(`/api/theme/${url}/${currentPage}`)
         .then(response => {
@@ -24,6 +36,12 @@ function ThemeSearchMain(props) {
           }));
           setThemes(themeArray);
           setTotalPages(response.data.totalPages); // 총 페이지 수 업데이트
+          if(response.data.totalPages <= 10){
+            setIndexPage(response.data.totalPages);
+          } else {
+            setLastIs(true);
+            setIndexPage(lineCount);
+          }
         })
         .catch(error => {
           console.error("데이터를 가져오는 중 오류가 발생했습니다.", error);
@@ -34,7 +52,12 @@ function ThemeSearchMain(props) {
     }, [currentPage, url]); // currentPage가 변경될 때마다 데이터 요청
 
     const handlePageChange = (page) => {
-      setCurrentPage(page);
+      setCurrentPage((indexPage*addIndex) + page);
+      console.log("handlePageChange -> page : ", page)
+      /* if (totalPages%10 === currentPage) {
+        setLastIs(false);
+        setFirstIs(false);
+      } */
     };
 
     const navigate = useNavigate();
@@ -62,11 +85,14 @@ function ThemeSearchMain(props) {
 
     const handleCategoryClick = (category) => {
         if(selectedCategory === category) {
-          setSelectedCategory(null);  
+          setSelectedCategory(null);
         } else {
           setSelectedCategory(category);
           setSearchKeyword(null);
           setUrl('findByCategoryId/' + category);
+          setFirstNum(1);
+          setFirstIs(false);
+          setCurrentPage(1);
         }
     };
 
@@ -75,9 +101,56 @@ function ThemeSearchMain(props) {
           alert("검색어는 2글자 이상이어야 합니다.");
           return;
         } else {
-          setUrl('search/' + searchKeyword)
+          setUrl('search/' + searchKeyword);
+          setFirstNum(1);
+          setFirstIs(false);
+          setCurrentPage(1);
         }
     };
+
+    /* 페이징 영역 */
+    
+    const handlePrevRange = () => {
+      setAddIndex(addIndex-1);
+      /* setCurrentPage((addIndex*lineCount)+1); */
+      console.log("prev");
+      setFirstNum(firstNum - lineCount);
+      setIndexPage(lineCount);
+      setLastIs(true);
+      if ((firstNum - lineCount) === 1) {
+        setFirstIs(false);
+      } else {
+        setFirstIs(true);
+      }
+    }
+    
+    const handleNextRange = () => {
+      setAddIndex(addIndex+1);
+      /* setCurrentPage((addIndex*lineCount)+1); */
+      console.log("Next");
+      setFirstNum(firstNum + lineCount);
+      setFirstIs(true);
+      if(firstNum + lineCount + 9 > totalPages) {
+        /* setLastNum(totalPages); */
+        setLastIs(false);
+        setIndexPage(totalPages%lineCount);
+      } else if(firstNum + lineCount + 9 === totalPages) {
+        /* setLastNum(totalPages); */
+        setLastIs(false);
+        setIndexPage(10);
+      } else {
+        /* setLastNum(firstNum + 9); */
+        setLastIs(true);
+        setIndexPage(10);
+      }
+      
+    }
+    
+    /* 페이징 영역 */
+    /* console.log("addIndex 데이터 확인 : ", addIndex);
+    console.log("currentPage 데이터 확인 : ", currentPage);
+    console.log("totalPages 데이터 확인 : ", totalPages);
+    console.log("페이지 클릭 끝"); */
 
     return (
       <>
@@ -141,14 +214,23 @@ function ThemeSearchMain(props) {
                 ))}
             </ul>
           </div>
-          <div>
+          <div className="pageBox">
+          {
+            firstIs && <button className='pageArrow' onClick={() => handlePrevRange()}>&lt;&lt;</button>
+          }
+          <div className='paginationContainer'>
             {/* 페이지 내비게이션 */}
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button key={index + 1} onClick={() => handlePageChange(index + 1)}>
-                {index + 1}
+            {Array.from({ length: indexPage }, (_, index) => (
+              <button className='pageBtn' key={index + 1} onClick={() => handlePageChange(index + 1)}>
+                {firstNum + index}
               </button>
             ))}
           </div>
+          {
+            lastIs && <button className='pageArrow' onClick={() => handleNextRange()}>&gt;&gt;</button>
+          }
+          </div>
+          
         </div> {/* container */}
       </div> {/* faq app-pages app-section */}
     </>
