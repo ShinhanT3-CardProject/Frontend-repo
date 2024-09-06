@@ -21,12 +21,11 @@
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  background-image: url('../image/shoppingImage.jpg');  
+  bottom: 0; 
+  background-image: url('../image/bannerTitle.png');  
   background-size: cover;  
   background-repeat: no-repeat;  
-  background-position: center;  
-  opacity: 0.7;  
+  background-position: center;   
   z-index: 1; 
   pointer-events: none;  
 } 
