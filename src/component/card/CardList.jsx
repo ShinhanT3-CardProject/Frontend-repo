@@ -33,10 +33,7 @@ function CardList() {
     <>
       <div className="app-pages app-section">
         <div className="container">
-          <div className="pages-title">
-            <h2 style={{ textAlign: "left", lineHeight: 1.5 }}>
-              신한카드
-            </h2>
+          <div className="pages-title"> 
             <hr style={{ marginTop: "20px", marginBottom: "20px" }} />
           </div>
 
