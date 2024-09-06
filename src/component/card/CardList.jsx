@@ -6,7 +6,7 @@ function CardList() {
   const [searchTerm, setSearchTerm] = useState(""); // 검색어 상태
 
   useEffect(() => {
-    fetch("/card/list")
+    fetch("/api/card/list")
       .then((response) => response.json())
       .then((data) => setCards(data))
       .catch((error) => console.error("Error fetching cards:", error));

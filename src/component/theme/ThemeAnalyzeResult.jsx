@@ -13,7 +13,34 @@ function ThemeAnalyzeResult(props) {
     const { theme, reason } = location.state || { theme: '테마 없음', reason: '이유 없음' };
     const [subcategories, setSubcategories] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    
     const reasonsArray = reason.split("\n");
+
+    // 테마별 강조할 키워드 목록
+    const themeKeywords = {
+        "생활": ["집", "청소", "정리", "가전", "생활용품", "편의점", "마트", "미용"],
+        "쇼핑": ["구매", "쇼핑", "할인", "세일", "상점", "거래"],
+        "외식/카페": ["음식", "식사", "레스토랑", "카페", "커피", "한식"],
+        "문화/교육": ["영화", "공연", "책", "교육", "강의", "문화", "문화재", "유적지"],
+        "여행/교통": ["여행", "교통", "비행기", "기차", "숙소", "탐험", "시야"]
+    };
+
+    // reason에서 키워드를 강조하는 함수
+    const highlightKeywordsInReason = (text, theme) => {
+        const keywords = themeKeywords[theme] || [];
+        const regex = new RegExp(`(${keywords.join('|')})`, 'gi');
+        const parts = text.split(regex);
+
+        return parts.map((part, index) => 
+            keywords.some(keyword => new RegExp(keyword, 'gi').test(part)) ? (
+                <span key={index} className="highlighted">{part}</span>
+            ) : (
+                part
+            )
+        );
+    };
+
+    const highlightedReasons = reasonsArray.map(line => highlightKeywordsInReason(line, theme));
 
     const handleRecommendTheme = async () => {
         try {
@@ -30,12 +57,11 @@ function ThemeAnalyzeResult(props) {
     };
 
     const handleRegisterTheme = () => {
-        // 대분류 테마와 소분류 테마, 그리고 테마 이유를 ThemeRegister 페이지로 전달
         navigate('/themeRegister', {
             state: {
                 theme: subcategories.join(", "),
                 reason: reason,
-                mainCategory: theme // 대분류 테마 전달
+                mainCategory: theme
             }
         });
     };
@@ -52,7 +78,7 @@ function ThemeAnalyzeResult(props) {
         <div className="theme-result-container">
             <section className="result-section">
                 <h2 className="result-theme">분석 결과 : {theme} 테마</h2>
-                <ThemedBalloons reasons={reasonsArray} />
+                <ThemedBalloons reasons={highlightedReasons} />
                 <div className="button-group">
                     <button className="register-button" onClick={handleRecommendTheme}>
                         소분류 테마 확인하기

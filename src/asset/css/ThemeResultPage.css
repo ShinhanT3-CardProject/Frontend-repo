@@ -209,3 +209,9 @@ button:hover {
 .balloon.blue:before {
     border-right-color: #cce5ff;
 }
+
+/* ThemeResultPage.css */
+.highlighted {
+    font-weight: bold;
+    color: blue; /* 예시로 강조할 색상 선택 */
+}

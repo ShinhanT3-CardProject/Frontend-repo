@@ -21,7 +21,7 @@ function ThemeDetail(props) {
     const [stamps, setStamps]  = useState({}); /* 스탬프 변수 */
 
     useEffect(() => {
-        axios.get(`/theme/findThemeDetail/${themeId}`)
+        axios.get(`/api/theme/findThemeDetail/${themeId}`)
                 .then(response => {
                     setDetailTheme(response.data);
                 })

@@ -8,7 +8,7 @@ function CardUsageHistory() {
   const [loading, setLoading] = useState(true); // 로딩 상태
 
   useEffect(() => {
-    fetch(`/card/history`)
+    fetch(`/api/card/history`)
       .then((response) => response.json())
       .then((data) => {
         setUsageHistory(data);

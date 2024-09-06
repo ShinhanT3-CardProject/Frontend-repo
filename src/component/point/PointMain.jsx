@@ -69,7 +69,7 @@ function PointMain(props) {
 
   const fetchTotalPoints = async () => {
     try {
-      const response = await axios.get(`/point/total`);
+      const response = await axios.get(`/api/point/total`);
       setTotalPoints(response.data); // 응답 데이터에서 총 포인트 설정
     } catch (error) {
       console.error("총 포인트 데이터를 가져오는 중 오류 발생:", error);
@@ -81,11 +81,11 @@ function PointMain(props) {
     try {
       let response;
       if (selected === "전체") {
-        response = await axios.get(`/point/all`);
+        response = await axios.get(`/api/point/all`);
       } else if (selected === "적립") {
-        response = await axios.get(`/point/added`);
+        response = await axios.get(`/api/point/added`);
       } else if (selected === "사용") {
-        response = await axios.get(`/point/used`);
+        response = await axios.get(`/api/point/used`);
       }
 
       // 날짜순으로 정렬
@@ -112,7 +112,7 @@ function PointMain(props) {
 
   const fetchCategoryData = async () => {
     try {
-      const response = await axios.get(`/point/calc-category`);
+      const response = await axios.get(`/api/point/calc-category`);
       const data = response.data;
 
       // 카테고리별 총합과 비율 데이터 설정
