@@ -7,7 +7,6 @@ function CardUsageHistory() {
   const [showCardNumber, setShowCardNumber] = useState(false); // 카드번호 표시 여부
   const [loading, setLoading] = useState(true); // 로딩 상태
 
-
   useEffect(() => {
     fetch(`/api/card/history`)
       .then((response) => response.json())
@@ -43,6 +42,11 @@ function CardUsageHistory() {
     handleCardSelect(cardNum);
   };
 
+  // 카드 번호 마스킹 함수
+  const maskCardNumber = (cardNum) => { 
+    return cardNum.slice(0, -4).replace(/\d/g, "*") + cardNum.slice(-4);
+  };
+
   const hasCards = Object.keys(usageHistory).length > 0;
   const selectedCardHasUsage = selectedCard && usageHistory[selectedCard] && usageHistory[selectedCard].usageHistory.length > 0;
 
@@ -50,8 +54,7 @@ function CardUsageHistory() {
     <>
       <div className="usage-history app-pages app-section">
         <div className="container">
-          <div className="pages-title">
-            <h2 className="page-title">결제 내역</h2>
+          <div className="pages-title"> 
             <hr />
           </div>
           <div className="entry">
@@ -103,17 +106,22 @@ function CardUsageHistory() {
                       </button>
                     </>
                   ) : (
-                    <button
-                      onClick={toggleCardNumber}
-                      className="toggle-card-number-button"
-                    >
-                      카드번호 보기
-                    </button>
+                    <>
+                      <h5 className="card-number">{maskCardNumber(selectedCard)}</h5>
+                      <button
+                        onClick={toggleCardNumber}
+                        className="toggle-card-number-button"
+                      >
+                        카드번호 보기
+                      </button>
+                    </>
                   )}
                 </div>
                 <div className="order">
                   {selectedCardHasUsage ? (
-                    usageHistory[selectedCard].usageHistory.map((usage) => (
+                    usageHistory[selectedCard].usageHistory
+                      .sort((a,b) => new Date(b.transactionDate) - new Date(a.transactionDate))  // 결제내역을 내림차순으로 정렬
+                      .map((usage) => (
                       <div key={usage.usageId} className="row order-row">
                         <div className="col s8 custom-left-margin">
                           <p className="order-date">

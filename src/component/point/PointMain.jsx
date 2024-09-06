@@ -103,7 +103,7 @@ function PointMain(props) {
 
   const fetchUserInfo = async () => {
     try {
-      const response = await axios.get(`/point/info`);
+      const response = await axios.get(`api/point/info`);
       setUserName(response.data.userName);
     } catch (error) {
       console.error("사용자 정보를 가져오는 중 오류 발생:", error);

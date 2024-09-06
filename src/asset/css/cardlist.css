@@ -114,42 +114,42 @@
 .pages-title {
   display: flex;
   flex-direction: column;
-  align-items: center; /* 가로 방향 중앙 정렬 */
-  justify-content: center; /* 세로 방향 중앙 정렬 */
-  text-align: center; /* 텍스트 중앙 정렬 */
-  margin-top: -7px; 
-  min-height: 100px; /* 제목 영역의 최소 높이 설정 (조정 가능) */
+  align-items: center;  
+  justify-content: center;  
+  text-align: center;  
+  margin-top: -7px;  
+  min-height: 156px;   
   padding-top: 10px;
-  margin-bottom: 12px;
+  margin-bottom: 51px;
 }
 
 .pages-title h2 {
-  font-size: 1.5em; /* 제목 글자 크기 조정 (예: 1.5em, 조정 가능) */
-  margin: 0; /* 마진 리셋 */
-  display: inline-block; /* 텍스트가 중앙에 위치하도록 설정 */
+  font-size: 1.5em;  
+  margin: 0;  
+  display: inline-block; 
 }
 
 .pages-title hr {
   margin-top: 0 !important;
-  margin-bottom: 15px !important; /* hr과 제목 사이의 빈 공간 줄이기 */
+  margin-bottom: 15px !important;  
 }
 
 .search-bar {
-  margin-top: 0; /* 검색창 상단 여백 제거 */
+  margin-top: 0;  
   display: flex;
-  justify-content: center; /* 검색창을 가로 중앙 정렬 */
+  justify-content: center;  
 }
 
 .search-bar input {
-  max-width: 94%; /* 반응형 디자인을 위해 최대 너비를 100%로 설정 */
+  max-width: 94%; 
 }  
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 최소 300px, 최대 1fr */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));  
   gap: 20px;
-  justify-content: center; /* 그리드를 중앙에 정렬 */
-  padding: 10px; /* 그리드에 여백 추가 */
+  justify-content: center;  
+  padding: 10px;  
 }
 
 .card-item {
@@ -158,4 +158,4 @@
   align-items: center;
   text-align: center;
 }
-
+ 
