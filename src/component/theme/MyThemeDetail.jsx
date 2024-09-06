@@ -246,7 +246,7 @@ function MyThemeDetail(props) {
             return <div>잠시만 기다려 주세요</div>;
         }
 
-        // 수정하기 버튼 클릭 시 화면구성 변경
+        // 수정 버튼 클릭 시 화면구성 변경
         const handleEditClick = async () => {
           // 기존에 저장된 테마 정보를 사용하여 selectedThemes 상태를 설정합니다.
           if (Array.isArray(myDetailTheme.themeContents) && myDetailTheme.themeContents.length > 0) {
@@ -299,11 +299,11 @@ function MyThemeDetail(props) {
 
       try {
           const response = await axios.put(`/api/theme/updateTheme/${themeId}`, themeData);
-          if (response.status === 201) {
-              console.log("테마가 성공적으로 수정되었습니다.")
-              alert("테마가 성공적으로 수정되었습니다.");
+          if (response.status === 200) {
+            Swal.fire(
+              '테마가 성공적으로 수정되었습니다!',
+            )
               navigate('/myThemeSearch');
-              
           }
       } catch (error) {
           console.error('테마 수정 중 오류가 발생했습니다: ', error);
@@ -334,75 +334,75 @@ function MyThemeDetail(props) {
           const getMissionNameDetail = (missionNameDetail) => {
               switch (missionNameDetail) {
                   case '편의점':
-                      return '이용하기';
+                      return '이용';
                   case '마트':
-                      return '이용하기';
+                      return '이용';
                   case '전통시장':
-                      return '이용하기';
+                      return '이용';
                   case '택시':
-                      return '이용하기';
+                      return '이용';
                   case '병원':
-                    return '이용하기';
+                    return '이용';
                   case '세탁소':
-                    return '이용하기';
+                    return '이용';
                   case '약국':
-                    return '이용하기';
+                    return '이용';
                   case '헤어샵':
-                    return '이용하기';
+                    return '이용';
                   case '서점':
-                    return '이용하기';
+                    return '이용';
                   case '가구점':
-                    return '이용하기';
+                    return '이용';
                   case '가전제품':
-                    return '이용하기';
+                    return '이용';
                   case '백화점':
-                      return '이용하기';
+                      return '이용';
                   case '의류/패션':
-                      return '이용하기';
+                      return '이용';
                   case '스포츠용품':
-                      return '이용하기';
+                      return '이용';
                   case '카페':
-                      return '이용하기';
+                      return '이용';
                   case '양식':
-                    return '이용하기';
+                    return '이용';
                   case '베이커리':
-                    return '이용하기';
+                    return '이용';
                   case '한식':
-                    return '이용하기';
+                    return '이용';
                   case '일식':
-                    return '이용하기';
+                    return '이용';
                   case '중식':
-                    return '이용하기';
+                    return '이용';
                   case '패스트푸드':
-                    return '이용하기';
+                    return '이용';
                   case '술집':
-                    return '이용하기';
+                    return '이용';
                   case '영화/공연':
-                      return '이용하기';
+                      return '이용';
                   case '스터디카페':
-                      return '이용하기';
+                      return '이용';
                   case '노래방':
-                      return '이용하기';
+                      return '이용';
                   case '독서실':
-                      return '이용하기';
+                      return '이용';
                   case '문구점':
-                    return '이용하기';
+                    return '이용';
                   case '스포츠시설':
-                    return '이용하기';
+                    return '이용';
                   case '취미/오락':
-                    return '이용하기';
+                    return '이용';
                   case '학원':
-                    return '이용하기';
+                    return '이용';
                   case '면세점':
-                    return '이용하기';
+                    return '이용';
                   case '숙소':
-                    return '이용하기';
+                    return '이용';
                   case '여행사':
-                    return '이용하기';
+                    return '이용';
                   case '주유소':
-                    return '이용하기';
+                    return '이용';
                   case '주차장':
-                    return '이용하기';
+                    return '이용';
                   default: return null;
               }
           };
@@ -633,10 +633,10 @@ function MyThemeDetail(props) {
             <span>테마 설명</span>
             {isEditMode ? (
               <Link to={"/myThemeSearch"}>
-                <button className="themeSaveBtn" onClick={handleEditSave}>저장하기</button>
+                <button className="themeSaveBtn" onClick={handleEditSave}>저장</button>
               </Link>
             ) : (
-              <button className="themeEditBtn" onClick={handleEditClick}>수정하기</button>
+              <button className="themeEditBtn" onClick={handleEditClick}>수정</button>
             )}
         </div>
 
@@ -658,7 +658,7 @@ function MyThemeDetail(props) {
                 <button className="moveThemeListBtn">목록보기</button>
                 </Link>
                 {isEditMode ? (
-                  <button className="themeEditCancleBtn" onClick={handleCancleClick}>취소하기</button>
+                  <button className="themeEditCancleBtn" onClick={handleCancleClick}>취소</button>
                 ) : (
                   <button className="themeRemoveBtn" onClick={handleRemoveClick}>삭제</button>
                 )}
