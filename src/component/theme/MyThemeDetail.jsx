@@ -319,34 +319,39 @@ function MyThemeDetail(props) {
     return <div>잠시만 기다려 주세요</div>;
   }
 
-        // 수정 버튼 클릭 시 화면구성 변경
-        const handleEditClick = async () => {
-          // 기존에 저장된 테마 정보를 사용하여 selectedThemes 상태를 설정합니다.
-          if (Array.isArray(myDetailTheme.themeContents) && myDetailTheme.themeContents.length > 0) {
-            const initialSelectedThemes = myDetailTheme.themeContents.map((content) => ({
-              themeSubCategoryName: content.themeSubCategoryName,
-              themeSubCategoryId: content.themeSubCategoryId,
-            }));
-            setSelectedThemes(initialSelectedThemes);
-          }
-        
-          // 대분류 설정 및 소분류 불러오기
-          if (myDetailTheme.themeMainCategoryName) {
-            const selectedCategory = categories.find(
-              (category) => category.themeMainCategoryName === myDetailTheme.themeMainCategoryName
-            );
-        
-            if (selectedCategory) {
-              setSelectedCategory(selectedCategory.themeMainCategoryId);
-              setBackgroundImg(themeImages[selectedCategory.themeMainCategoryName]);
-  
-              // 소분류 데이터를 불러옵니다.
-              await fetchSubCategories(selectedCategory.themeMainCategoryId);
-            }
-          }
-          setIsEditMode(true);
-        };
-        
+  // 수정 버튼 클릭 시 화면구성 변경
+  const handleEditClick = async () => {
+    // 기존에 저장된 테마 정보를 사용하여 selectedThemes 상태를 설정합니다.
+    if (
+      Array.isArray(myDetailTheme.themeContents) &&
+      myDetailTheme.themeContents.length > 0
+    ) {
+      const initialSelectedThemes = myDetailTheme.themeContents.map(
+        (content) => ({
+          themeSubCategoryName: content.themeSubCategoryName,
+          themeSubCategoryId: content.themeSubCategoryId,
+        })
+      );
+      setSelectedThemes(initialSelectedThemes);
+    }
+
+    // 대분류 설정 및 소분류 불러오기
+    if (myDetailTheme.themeMainCategoryName) {
+      const selectedCategory = categories.find(
+        (category) =>
+          category.themeMainCategoryName === myDetailTheme.themeMainCategoryName
+      );
+
+      if (selectedCategory) {
+        setSelectedCategory(selectedCategory.themeMainCategoryId);
+        setBackgroundImg(themeImages[selectedCategory.themeMainCategoryName]);
+
+        // 소분류 데이터를 불러옵니다.
+        await fetchSubCategories(selectedCategory.themeMainCategoryId);
+      }
+    }
+    setIsEditMode(true);
+  };
 
   const handleCancleClick = () => {
     setMyDetailTheme(initialThemeData);
@@ -370,117 +375,118 @@ function MyThemeDetail(props) {
       mainCategory: { themeMainCategoryId: selectedCategory }, // 선택된 대분류 ID 추가
     };
 
-      try {
-          const response = await axios.put(`/api/theme/updateTheme/${themeId}`, themeData);
-          if (response.status === 200) {
-            Swal.fire(
-              '테마가 성공적으로 수정되었습니다!',
-            )
-              navigate('/myThemeSearch');
-          }
-      } catch (error) {
-          console.error('테마 수정 중 오류가 발생했습니다: ', error);
-          alert('테마 수정 중 오류가 발생했습니다.');
+    try {
+      const response = await axios.put(
+        `/api/theme/updateTheme/${themeId}`,
+        themeData
+      );
+      if (response.status === 200) {
+        Swal.fire("테마가 성공적으로 수정되었습니다!");
+        navigate("/myThemeSearch");
       }
+    } catch (error) {
+      console.error("테마 수정 중 오류가 발생했습니다: ", error);
+      alert("테마 수정 중 오류가 발생했습니다.");
+    }
   };
 
-            /* 스탬프 변수 */
-            const getStampImage = (stampImage) => {
-              switch (stampImage) {
-              case '쇼핑':
-                  return shoppingIcon;
-              case '여행/교통':
-                  return travelIcon;
-              case '생활':
-                  return lifestyleIcon;
-              case '외식/카페':
-                  return diningIcon;
-              case '문화/교육':
-                  return cultureIcon;
-              default:
-                  return null;
-  
-              }
-          };
-  
-          /* 문구 가변으로 가져오기 */
-          const getMissionNameDetail = (missionNameDetail) => {
-              switch (missionNameDetail) {
-                  case '편의점':
-                      return '이용';
-                  case '마트':
-                      return '이용';
-                  case '전통시장':
-                      return '이용';
-                  case '택시':
-                      return '이용';
-                  case '병원':
-                    return '이용';
-                  case '세탁소':
-                    return '이용';
-                  case '약국':
-                    return '이용';
-                  case '헤어샵':
-                    return '이용';
-                  case '서점':
-                    return '이용';
-                  case '가구점':
-                    return '이용';
-                  case '가전제품':
-                    return '이용';
-                  case '백화점':
-                      return '이용';
-                  case '의류/패션':
-                      return '이용';
-                  case '스포츠용품':
-                      return '이용';
-                  case '카페':
-                      return '이용';
-                  case '양식':
-                    return '이용';
-                  case '베이커리':
-                    return '이용';
-                  case '한식':
-                    return '이용';
-                  case '일식':
-                    return '이용';
-                  case '중식':
-                    return '이용';
-                  case '패스트푸드':
-                    return '이용';
-                  case '술집':
-                    return '이용';
-                  case '영화/공연':
-                      return '이용';
-                  case '스터디카페':
-                      return '이용';
-                  case '노래방':
-                      return '이용';
-                  case '독서실':
-                      return '이용';
-                  case '문구점':
-                    return '이용';
-                  case '스포츠시설':
-                    return '이용';
-                  case '취미/오락':
-                    return '이용';
-                  case '학원':
-                    return '이용';
-                  case '면세점':
-                    return '이용';
-                  case '숙소':
-                    return '이용';
-                  case '여행사':
-                    return '이용';
-                  case '주유소':
-                    return '이용';
-                  case '주차장':
-                    return '이용';
-                  default: return null;
-              }
-          };
-  
-          const themeContents = myDetailTheme.themeContents;
+  /* 스탬프 변수 */
+  const getStampImage = (stampImage) => {
+    switch (stampImage) {
+      case "쇼핑":
+        return shoppingIcon;
+      case "여행/교통":
+        return travelIcon;
+      case "생활":
+        return lifestyleIcon;
+      case "외식/카페":
+        return diningIcon;
+      case "문화/교육":
+        return cultureIcon;
+      default:
+        return null;
+    }
+  };
+
+  /* 문구 가변으로 가져오기 */
+  const getMissionNameDetail = (missionNameDetail) => {
+    switch (missionNameDetail) {
+      case "편의점":
+        return "이용";
+      case "마트":
+        return "이용";
+      case "전통시장":
+        return "이용";
+      case "택시":
+        return "이용";
+      case "병원":
+        return "이용";
+      case "세탁소":
+        return "이용";
+      case "약국":
+        return "이용";
+      case "헤어샵":
+        return "이용";
+      case "서점":
+        return "이용";
+      case "가구점":
+        return "이용";
+      case "가전제품":
+        return "이용";
+      case "백화점":
+        return "이용";
+      case "의류/패션":
+        return "이용";
+      case "스포츠용품":
+        return "이용";
+      case "카페":
+        return "이용";
+      case "양식":
+        return "이용";
+      case "베이커리":
+        return "이용";
+      case "한식":
+        return "이용";
+      case "일식":
+        return "이용";
+      case "중식":
+        return "이용";
+      case "패스트푸드":
+        return "이용";
+      case "술집":
+        return "이용";
+      case "영화/공연":
+        return "이용";
+      case "스터디카페":
+        return "이용";
+      case "노래방":
+        return "이용";
+      case "독서실":
+        return "이용";
+      case "문구점":
+        return "이용";
+      case "스포츠시설":
+        return "이용";
+      case "취미/오락":
+        return "이용";
+      case "학원":
+        return "이용";
+      case "면세점":
+        return "이용";
+      case "숙소":
+        return "이용";
+      case "여행사":
+        return "이용";
+      case "주유소":
+        return "이용";
+      case "주차장":
+        return "이용";
+      default:
+        return null;
+    }
+  };
+
+  const themeContents = myDetailTheme.themeContents;
 
   const themes = [
     {
@@ -627,7 +633,11 @@ function MyThemeDetail(props) {
                         className={`mission-node ${
                           stamps[theme.name]?.[mission.name] ? "stapmed" : ""
                         }`}
-                        onClick={() => giveRandomPoint(mission.themeContentId)}
+                        onClick={() =>
+                          themeContents[index].themeIsSuccess
+                            ? giveRandomPoint(mission.themeContentId)
+                            : ""
+                        }
                       >
                         <img
                           src={
@@ -818,10 +828,14 @@ function MyThemeDetail(props) {
             <span>테마 설명</span>
             {isEditMode ? (
               <Link to={"/myThemeSearch"}>
-                <button className="themeSaveBtn" onClick={handleEditSave}>저장</button>
+                <button className="themeSaveBtn" onClick={handleEditSave}>
+                  저장
+                </button>
               </Link>
             ) : (
-              <button className="themeEditBtn" onClick={handleEditClick}>수정</button>
+              <button className="themeEditBtn" onClick={handleEditClick}>
+                수정
+              </button>
             )}
           </div>
 
@@ -837,22 +851,28 @@ function MyThemeDetail(props) {
             ) : (
               <p>{myDetailTheme.themeDescription}</p>
             )}
-        </div>
-            <div className="themeBottomBtnDiv">
-                <Link to={"/myThemeSearch"}>
-                <button className="moveThemeListBtn">목록보기</button>
-                </Link>
-                {isEditMode ? (
-                  <button className="themeEditCancleBtn" onClick={handleCancleClick}>취소</button>
-                ) : (
-                  <button className="themeRemoveBtn" onClick={handleRemoveClick}>삭제</button>
-                )}
-
-            </div>
-            </div>{" "}
+          </div>
+          <div className="themeBottomBtnDiv">
+            <Link to={"/myThemeSearch"}>
+              <button className="moveThemeListBtn">목록보기</button>
+            </Link>
+            {isEditMode ? (
+              <button
+                className="themeEditCancleBtn"
+                onClick={handleCancleClick}
+              >
+                취소
+              </button>
+            ) : (
+              <button className="themeRemoveBtn" onClick={handleRemoveClick}>
+                삭제
+              </button>
+            )}
+          </div>
         </div>{" "}
-        </>
-    );
+      </div>{" "}
+    </>
+  );
 }
 
 export default MyThemeDetail;
