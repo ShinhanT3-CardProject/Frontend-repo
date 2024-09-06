@@ -119,7 +119,9 @@ function CardUsageHistory() {
                 </div>
                 <div className="order">
                   {selectedCardHasUsage ? (
-                    usageHistory[selectedCard].usageHistory.map((usage) => (
+                    usageHistory[selectedCard].usageHistory
+                      .sort((a,b) => new Date(b.transactionDate) - new Date(a.transactionDate))  // 결제내역을 내림차순으로 정렬
+                      .map((usage) => (
                       <div key={usage.usageId} className="row order-row">
                         <div className="col s8 custom-left-margin">
                           <p className="order-date">
