@@ -19,12 +19,12 @@ function ThemeSearchMain(props) {
     /* 페이징 영역 */
 
     const [firstNum, setFirstNum ] = useState(1);
-    /* const [lastNum, setLastNum ] = useState(0); */
     const [indexPage, setIndexPage] = useState(0);
     const [addIndex, setAddIndex] = useState(0);
     const lineCount = 10;
     const [lastIs, setLastIs] = useState(false);
     const [firstIs, setFirstIs] = useState(false);
+    const lastIndex = Math.floor(totalPages/10);
 
     /* 페이징 영역 */
 
@@ -53,11 +53,17 @@ function ThemeSearchMain(props) {
 
     const handlePageChange = (page) => {
       setCurrentPage((indexPage*addIndex) + page);
-      console.log("handlePageChange -> page : ", page)
-      /* if (totalPages%10 === currentPage) {
+      if(lastIndex === addIndex && page <= totalPages%10) {
         setLastIs(false);
-        setFirstIs(false);
-      } */
+      } else {
+        setLastIs(true);
+      }
+
+      console.log("handlePageChange -> page : ", page);
+      console.log("addIndex : ",addIndex);
+      console.log("indexPage : ",indexPage);
+      console.log("addIndex*indexPage : ", addIndex*indexPage);
+      console.log("currentPage : ",currentPage);
     };
 
     const navigate = useNavigate();
@@ -84,6 +90,7 @@ function ThemeSearchMain(props) {
     };      
 
     const handleCategoryClick = (category) => {
+      setAddIndex(0);
         if(selectedCategory === category) {
           setSelectedCategory(null);
         } else {
@@ -97,6 +104,7 @@ function ThemeSearchMain(props) {
     };
 
     const handleSearchClick = () => {
+        setAddIndex(0);
         if(searchKeyword.length < 2) {
           alert("검색어는 2글자 이상이어야 합니다.");
           return;
@@ -112,7 +120,6 @@ function ThemeSearchMain(props) {
     
     const handlePrevRange = () => {
       setAddIndex(addIndex-1);
-      /* setCurrentPage((addIndex*lineCount)+1); */
       console.log("prev");
       setFirstNum(firstNum - lineCount);
       setIndexPage(lineCount);
@@ -126,31 +133,25 @@ function ThemeSearchMain(props) {
     
     const handleNextRange = () => {
       setAddIndex(addIndex+1);
-      /* setCurrentPage((addIndex*lineCount)+1); */
       console.log("Next");
       setFirstNum(firstNum + lineCount);
       setFirstIs(true);
       if(firstNum + lineCount + 9 > totalPages) {
-        /* setLastNum(totalPages); */
         setLastIs(false);
         setIndexPage(totalPages%lineCount);
       } else if(firstNum + lineCount + 9 === totalPages) {
-        /* setLastNum(totalPages); */
         setLastIs(false);
         setIndexPage(10);
       } else {
-        /* setLastNum(firstNum + 9); */
         setLastIs(true);
         setIndexPage(10);
       }
-      
+
     }
-    
-    /* 페이징 영역 */
-    /* console.log("addIndex 데이터 확인 : ", addIndex);
-    console.log("currentPage 데이터 확인 : ", currentPage);
-    console.log("totalPages 데이터 확인 : ", totalPages);
-    console.log("페이지 클릭 끝"); */
+
+    console.log("addIndex : ", addIndex);
+    console.log("totalPages", totalPages);
+    console.log("lastIndex : ", lastIndex);
 
     return (
       <>
@@ -220,11 +221,14 @@ function ThemeSearchMain(props) {
           }
           <div className='paginationContainer'>
             {/* 페이지 내비게이션 */}
-            {Array.from({ length: indexPage }, (_, index) => (
+
+            {Array.from({ length: (totalPages - firstNum + 1) < 10 ? (totalPages - firstNum + 1) : 10 }, (_, index) => (
               <button className='pageBtn' key={index + 1} onClick={() => handlePageChange(index + 1)}>
                 {firstNum + index}
               </button>
             ))}
+
+
           </div>
           {
             lastIs && <button className='pageArrow' onClick={() => handleNextRange()}>&gt;&gt;</button>
