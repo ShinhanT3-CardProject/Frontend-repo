@@ -7,6 +7,7 @@ import travelIcon from "asset/image/travelcon.png";
 import lifestyleIcon from "asset/image/lifestyleIcon.png";
 import diningIcon from "asset/image/diningIcon.png";
 import cultureIcon from "asset/image/cultreIcon.png";
+import Swal from 'sweetalert2';
 
 function ThemeRegister(props) {
     const location = useLocation();
@@ -150,11 +151,31 @@ function ThemeRegister(props) {
                 mainCategory: { "themeMainCategoryId": selectedCategory }
             };
             console.log(themeData);
-            const response = await axios.post('/api/theme/insertTheme', themeData);
-            if (response.status === 201) {
-                alert("테마가 성공적으로 등록되었습니다.");
-                navigate('/themeSearchAll');
-            }
+                Swal.fire({
+                    title: '테마를 등록하시겠습니까?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: 'green',
+                    cancelButtonColor: 'red',
+                    confirmButtonText: '등록',
+                    cancelButtonText: '취소',
+                    reverseButtons: false, // 버튼 순서 거꾸로
+                    
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                        axios.post('/api/theme/insertTheme', themeData)
+                          .then(response => {
+                            navigate('/myThemeSearch');
+                          })
+                          .catch(error => {
+                            console.error("테마 등록 중 오류가 발생했습니다.", error);
+                          });
+                      Swal.fire(
+                        '테마가 성공적으로 등록되었습니다!',
+                        'success'
+                      )
+                    }
+                  }); 
         } catch (error) {
             console.error('테마 등록 중 오류가 발생했습니다: ', error);
             alert('테마 등록 중 오류가 발생했습니다.');
@@ -221,75 +242,75 @@ function ThemeRegister(props) {
     const getMissionNameDetail = (missionNameDetail) => {
         switch (missionNameDetail) {
             case '편의점':
-                return '이용하기';
+                return '이용';
             case '마트':
-                return '이용하기';
+                return '이용';
             case '전통시장':
-                return '이용하기';
+                return '이용';
             case '택시':
-                return '이용하기';
+                return '이용';
             case '병원':
-              return '이용하기';
+              return '이용';
             case '세탁소':
-              return '이용하기';
+              return '이용';
             case '약국':
-              return '이용하기';
+              return '이용';
             case '헤어샵':
-              return '이용하기';
+              return '이용';
             case '서점':
-              return '이용하기';
+              return '이용';
             case '가구점':
-              return '이용하기';
+              return '이용';
             case '가전제품':
-              return '이용하기';
+              return '이용';
             case '백화점':
-                return '이용하기';
+                return '이용';
             case '의류/패션':
-                return '이용하기';
+                return '이용';
             case '스포츠용품':
-                return '이용하기';
+                return '이용';
             case '카페':
-                return '이용하기';
+                return '이용';
             case '양식':
-              return '이용하기';
+              return '이용';
             case '베이커리':
-              return '이용하기';
+              return '이용';
             case '한식':
-              return '이용하기';
+              return '이용';
             case '일식':
-              return '이용하기';
+              return '이용';
             case '중식':
-              return '이용하기';
+              return '이용';
             case '패스트푸드':
-              return '이용하기';
+              return '이용';
             case '술집':
-              return '이용하기';
+              return '이용';
             case '영화/공연':
-                return '이용하기';
+                return '이용';
             case '스터디카페':
-                return '이용하기';
+                return '이용';
             case '노래방':
-                return '이용하기';
+                return '이용';
             case '독서실':
-                return '이용하기';
+                return '이용';
             case '문구점':
-              return '이용하기';
+              return '이용';
             case '스포츠시설':
-              return '이용하기';
+              return '이용';
             case '취미/오락':
-              return '이용하기';
+              return '이용';
             case '학원':
-              return '이용하기';
+              return '이용';
             case '면세점':
-              return '이용하기';
+              return '이용';
             case '숙소':
-              return '이용하기';
+              return '이용';
             case '여행사':
-              return '이용하기';
+              return '이용';
             case '주유소':
-              return '이용하기';
+              return '이용';
             case '주차장':
-              return '이용하기';
+              return '이용';
             default: return null;
         }
     };

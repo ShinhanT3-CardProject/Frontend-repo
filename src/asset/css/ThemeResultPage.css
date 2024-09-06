@@ -213,5 +213,5 @@ button:hover {
 /* ThemeResultPage.css */
 .highlighted {
     font-weight: bold;
-    color: blue; /* 예시로 강조할 색상 선택 */
+    text-decoration: underline;
 }
