@@ -88,8 +88,10 @@ function RaidBattle() {
                 return slimeWounded;
             } else if (ratio > 0.25) {
                 return slimeHalf;
-            } else {
+            } else if (ratio > 0 ) {
                 return slimeWeak;
+            } else {
+                return null;
             }
         } else {
             if (ratio > 0.75) {
@@ -98,8 +100,10 @@ function RaidBattle() {
                 return kingWounded;
             } else if (ratio > 0.25) {
                 return kingHalf;
-            } else {
+            } else if (ratio > 0 ) {
                 return kingWeak;
+            } else {
+                return null;
             }
         }
             
